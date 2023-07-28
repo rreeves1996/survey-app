@@ -1,6 +1,6 @@
 # Survey App
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+Created by Ryan Reeves with the [T3 Stack](https://create.t3.gg/).
 
 ## User Story
 
@@ -13,3 +13,11 @@ This app was created with the [T3 Stack](https://create.t3.gg/), which includes 
 ## Roadmap
 
 -
+
+## Contact
+
+### Ryan Reeves
+
+Email - rreeves.dev@gmail.com
+<br>
+Portfolio - https://rreeves.dev/ | LinkedIn - https://linkedin.com/in/rreevesdev/ | GitHub - https://github.com/rreeves1996/
