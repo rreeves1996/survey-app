@@ -40,33 +40,33 @@ export const authOptions: NextAuthOptions = {
   },
   adapter: PrismaAdapter(prisma),
   providers: [
-    CredentialsProvider({
-      name: "Credentials",
-      credentials: {
-        username: { label: "Username", type: "text", placeholder: "jsmith" },
-        password: { label: "Password", type: "password" },
-      },
-      async authorize(credentials, req) {
-        const res = await fetch("http://localhost:3000/auth/login", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username: credentials?.username,
-            password: credentials?.password,
-          }),
-        });
+    // CredentialsProvider({
+    //   name: "Credentials",
+    //   credentials: {
+    //     username: { label: "Username", type: "text", placeholder: "jsmith" },
+    //     password: { label: "Password", type: "password" },
+    //   },
+    //   async authorize(credentials, req) {
+    //     const res = await fetch("http://localhost:3000/auth/login", {
+    //       method: "POST",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //       body: JSON.stringify({
+    //         username: credentials?.username,
+    //         password: credentials?.password,
+    //       }),
+    //     });
 
-        const user: User = (await res.json()) as User;
+    //     const user: User = (await res.json()) as User;
 
-        if (user) {
-          return user;
-        } else {
-          return null;
-        }
-      },
-    }),
+    //     if (user) {
+    //       return user;
+    //     } else {
+    //       return null;
+    //     }
+    //   },
+    // }),
     DiscordProvider({
       clientId: env.DISCORD_CLIENT_ID,
       clientSecret: env.DISCORD_CLIENT_SECRET,

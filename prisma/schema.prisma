@@ -55,7 +55,7 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
-    Surveys       Survey[]
+    surveys       Survey[]
 }
 
 model VerificationToken {
@@ -83,6 +83,6 @@ model Question {
     questionType String
     questionBody String   @db.Text
     answer       Int?
-    Survey       Survey   @relation(fields: [surveyId], references: [id])
+    survey       Survey   @relation(fields: [surveyId], references: [id])
     surveyId     String
 }
