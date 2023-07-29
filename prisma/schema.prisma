@@ -55,6 +55,7 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
+    Surveys       Survey[]
 }
 
 model VerificationToken {
@@ -63,4 +64,25 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+model Survey {
+    id        String     @id @default(cuid())
+    createdAt DateTime   @default(now())
+    updatedAt DateTime   @updatedAt
+    name      String
+    user      User       @relation(fields: [userId], references: [id])
+    userId    String
+    questions Question[]
+}
+
+model Question {
+    id           String   @id @default(cuid())
+    createdAt    DateTime @default(now())
+    updatedAt    DateTime @updatedAt
+    questionType String
+    questionBody String   @db.Text
+    answer       Int?
+    Survey       Survey   @relation(fields: [surveyId], references: [id])
+    surveyId     String
 }
