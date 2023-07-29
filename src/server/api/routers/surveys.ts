@@ -10,5 +10,14 @@ export const surveyRouter = createTRPCRouter({
     });
   }),
 
-  // create: protectedProcedure.input(z.object({ name: z.string() })),
+  create: protectedProcedure
+    .input(z.object({ name: z.string() }))
+    .mutation(({ ctx, input }) => {
+      return ctx.prisma.survey.create({
+        data: {
+          name: input.name,
+          userId: ctx.session.user.id,
+        },
+      });
+    }),
 });
