@@ -20,4 +20,10 @@ export const surveyRouter = createTRPCRouter({
         },
       });
     }),
+
+  delete: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      return ctx.prisma.survey.delete({ where: { id: input.id } });
+    }),
 });

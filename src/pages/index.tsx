@@ -22,7 +22,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {sessionData && <Navbar />}
-      <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-l from-blue-800 to-indigo-900">
+      <main className="flex min-h-screen flex-col items-center bg-gradient-to-l from-blue-800 to-indigo-900 p-4">
         {sessionData ? <Dashboard /> : <Login />}
       </main>
     </>
