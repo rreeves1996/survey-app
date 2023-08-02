@@ -5,9 +5,7 @@ import QuestionForm from "~/components/QuestionForm";
 
 export default function index() {
   const [showQuestionForm, setShowQuestionForm] = useState<boolean>(false);
-  const [currentQuestions, setCurrentQuestions] = useState<Question[] | null>(
-    null
-  );
+  const [currentQuestions, setCurrentQuestions] = useState<FormQuestion[]>([]);
 
   return (
     <div className="card mt-2 h-fit w-full shadow-xl lg:w-96">
@@ -19,8 +17,11 @@ export default function index() {
         <div className="divider" />
 
         <form action="" className="mb-2">
-          <div className="flex">
-            <label htmlFor="name" className="min-w-fit">
+          <div className="flex items-baseline">
+            <label
+              htmlFor="name"
+              className="min-w-fit text-lg font-bold  tracking-tight"
+            >
               Survey name:
             </label>
 
@@ -33,17 +34,14 @@ export default function index() {
           </div>
         </form>
 
-        <h6 className="font-bold">Add/remove questions below. </h6>
-        <ul>
-          <li className="text-sm">
-            <strong>TRUE/FALSE</strong> questions allow the user to answer with
-            true or false.
-          </li>
-          <li className="text-sm">
-            <strong>FREQUENCY</strong> questions allow the user to respond with
-            their frequency (1-5), with 1 being "never" and 5 being "always."
-          </li>
-        </ul>
+        <p className="text-sm">
+          <strong>TRUE/FALSE</strong> questions allow the user to answer with
+          either true or false.
+        </p>
+        <p className="text-sm">
+          <strong>FREQUENCY</strong> questions allow the user to respond with
+          their frequency (1-5), with 1 being "never" and 5 being "always."
+        </p>
 
         <QuestionForm
           showQuestionForm={showQuestionForm}
