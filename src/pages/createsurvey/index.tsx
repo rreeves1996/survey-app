@@ -1,13 +1,43 @@
 import { Question } from "@prisma/client";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React, { useState } from "react";
 import QuestionForm from "~/components/QuestionForm";
+import { api } from "~/utils/api";
+
+const DUMMY_DATA = [
+  { questionType: "T/F", questionBody: "hello" },
+  { questionType: "T/F", questionBody: "hello" },
+  { questionType: "T/F", questionBody: "hello" },
+  { questionType: "T/F", questionBody: "hello" },
+  { questionType: "T/F", questionBody: "hello" },
+  { questionType: "T/F", questionBody: "hello" },
+];
 
 export default function index() {
+  const { data: sessionData } = useSession();
+
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [surveyName, setSurveyName] = useState<string>("");
   const [showQuestionForm, setShowQuestionForm] = useState<boolean>(false);
-  const [currentQuestions, setCurrentQuestions] = useState<FormQuestion[]>([]);
+  const [currentQuestions, setCurrentQuestions] = useState<FormQuestion[]>([
+    ...DUMMY_DATA,
+  ]);
+
+  const createQuestion = api.question.create.useMutation({
+    onSuccess: () => null,
+  });
+
+  const createSurvey = api.survey.create.useMutation({
+    onSuccess: (data) =>
+      currentQuestions.map((question) =>
+        createQuestion.mutate({
+          surveyId: data.id,
+          questionType: question.questionType,
+          questionBody: question.questionBody,
+        })
+      ),
+  });
 
   const handleRemoveQuestion = (question: FormQuestion) => {
     const newCurrentQuestions = currentQuestions.filter(
@@ -15,8 +45,6 @@ export default function index() {
     );
 
     setCurrentQuestions(newCurrentQuestions);
-
-    console.log(newCurrentQuestions);
   };
 
   return (
@@ -115,18 +143,24 @@ export default function index() {
           + Add Question
         </button>
 
-        <div className={`join ${currentQuestions.length <= 4 ? "hidden" : ""}`}>
+        <div
+          className={`join mt-2 w-full justify-center ${
+            currentQuestions.length <= 4 ? "hidden" : ""
+          }`}
+        >
           <button
-            className="btn join-item"
+            className="btn join-item min-h-6 h-8"
             onClick={() =>
               currentPage !== 0 ? setCurrentPage(currentPage - 1) : null
             }
           >
             «
           </button>
-          <button className="btn join-item">Page {currentPage + 1}</button>
+          <button className="btn join-item  min-h-6 h-8">
+            Page {currentPage + 1}
+          </button>
           <button
-            className="btn join-item"
+            className="btn join-item  min-h-6 h-8"
             onClick={() => {
               if (currentQuestions.length / 5 >= currentPage + 1) {
                 setCurrentPage(currentPage + 1);
@@ -144,7 +178,10 @@ export default function index() {
         <div className="divider my-2" />
 
         <div className="flex flex-col items-center">
-          <button className="btn btn-accent btn-outline btn-block mb-1">
+          <button
+            className="btn btn-accent btn-outline btn-block mb-1"
+            onClick={() => createSurvey.mutate({ name: surveyName })}
+          >
             Create Survey
           </button>
 
