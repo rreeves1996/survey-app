@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import QuestionForm from "~/components/QuestionForm";
 
 export default function index() {
+  const [currentPage, setCurrentPage] = useState<number>(0);
   const [surveyName, setSurveyName] = useState<string>("");
   const [showQuestionForm, setShowQuestionForm] = useState<boolean>(false);
   const [currentQuestions, setCurrentQuestions] = useState<FormQuestion[]>([]);
@@ -20,7 +21,7 @@ export default function index() {
 
   return (
     <div className="card mt-2 h-fit w-full shadow-xl lg:w-96">
-      <div className="card-body rounded-md bg-slate-800">
+      <div className="card-body rounded-md bg-slate-800 pb-4">
         <h1 className="text-center text-4xl font-extralight tracking-wider text-slate-100">
           Create Survey
         </h1>
@@ -28,7 +29,7 @@ export default function index() {
         <div className="divider" />
 
         <form action="" className="mb-2">
-          <div className="flex items-baseline">
+          <div className="flex items-end">
             <label
               htmlFor="name"
               className="min-w-fit text-lg font-bold  tracking-tight"
@@ -41,7 +42,7 @@ export default function index() {
               name="name"
               placeholder="New survey"
               value={surveyName}
-              className="input input-bordered input-sm ml-2 w-full"
+              className="input input-bordered input-sm ml-2 h-7 w-full pl-2"
               onChange={(e) => setSurveyName(e.target.value)}
             />
           </div>
@@ -51,49 +52,52 @@ export default function index() {
           <strong>TRUE/FALSE</strong> questions allow the user to answer with
           either true or false.
         </p>
-        <p className="text-sm">
+        <p className="mb-2 text-sm">
           <strong>FREQUENCY</strong> questions allow the user to respond with
           their frequency (1-5), with 1 being "never" and 5 being "always."
         </p>
 
         {currentQuestions &&
-          currentQuestions.map((question) => (
-            <div className="flex">
-              <div className="collapse collapse-arrow rounded-md bg-base-200 bg-opacity-50 transition-all hover:bg-opacity-100">
-                <input type="checkbox" className="min-h-8" />
-                <div className="collapse-title min-h-8 pb-0 pl-3 pt-1 text-sm font-medium">
-                  Question {currentQuestions.indexOf(question) + 1}
+          currentQuestions
+            .slice(currentPage * 5, 5 + currentPage * 5)
+            .map((question) => (
+              <div className="flex">
+                <div className="collapse collapse-arrow rounded-md bg-base-200 bg-opacity-50 transition-all hover:bg-opacity-100">
+                  <input type="checkbox" className="min-h-8" />
+                  <div className="collapse-title min-h-8 flex w-full justify-between pb-0 pl-3 pt-1 text-sm font-medium">
+                    <p>Question {currentQuestions.indexOf(question) + 1}</p>
+                    <p className="flex-grow-0">{question.questionType}</p>
+                  </div>
+                  <div className="collapse-content text-xs">
+                    <p>{question.questionBody}</p>
+                  </div>
                 </div>
-                <div className="collapse-content text-xs">
-                  <p>{question.questionBody}</p>
-                </div>
-              </div>
-              <div
-                className="tooltip tooltip-bottom"
-                data-tip="delete question"
-              >
-                <button
-                  className="min-w-8 btn btn-square min-h-8 ml-2 h-8 w-8 bg-opacity-50"
-                  onClick={() => handleRemoveQuestion(question)}
+                <div
+                  className="tooltip tooltip-bottom"
+                  data-tip="delete question"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
+                  <button
+                    className="min-w-8 btn btn-square min-h-8 ml-2 h-8 w-8 bg-opacity-50"
+                    onClick={() => handleRemoveQuestion(question)}
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-4 w-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
 
         <QuestionForm
           showQuestionForm={showQuestionForm}
@@ -104,23 +108,48 @@ export default function index() {
 
         <button
           onClick={() => setShowQuestionForm(true)}
-          className={`btn btn-accent btn-ghost btn-sm max-w-max ${
+          className={`btn btn-accent btn-ghost btn-sm mt-1 max-w-max ${
             showQuestionForm ? "hidden" : ""
           }`}
         >
           + Add Question
         </button>
 
-        <div className="divider mt-0" />
-        <div>
-          <button className="btn btn-accent btn-outline btn-block">
+        <div className={`join ${currentQuestions.length <= 4 ? "hidden" : ""}`}>
+          <button
+            className="btn join-item"
+            onClick={() =>
+              currentPage !== 0 ? setCurrentPage(currentPage - 1) : null
+            }
+          >
+            «
+          </button>
+          <button className="btn join-item">Page {currentPage + 1}</button>
+          <button
+            className="btn join-item"
+            onClick={() => {
+              if (currentQuestions.length / 5 >= currentPage + 1) {
+                setCurrentPage(currentPage + 1);
+                console.log(currentPage);
+                console.log(currentQuestions.length / 5);
+              } else {
+                console.log("no");
+              }
+            }}
+          >
+            »
+          </button>
+        </div>
+
+        <div className="divider my-2" />
+
+        <div className="flex flex-col items-center">
+          <button className="btn btn-accent btn-outline btn-block mb-1">
             Create Survey
           </button>
 
           <Link href="/">
-            <button className="btn btn-ghost btn-block mb-0 mt-2">
-              Cancel
-            </button>
+            <button className="btn btn-ghost btn-sm mb-0 mt-2">Cancel</button>
           </Link>
         </div>
       </div>
