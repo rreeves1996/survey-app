@@ -64,7 +64,9 @@ export default function QuestionForm({
 
       <div className="mt-4 flex justify-around">
         <button
-          className="btn btn-accent btn-xs"
+          className={`btn btn-accent btn-xs ${
+            !questionBody ? "btn-disabled" : ""
+          }`}
           onClick={() => {
             if (questionBody) {
               setCurrentQuestions([

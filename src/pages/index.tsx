@@ -49,7 +49,7 @@ const Content: React.FC = () => {
     undefined,
     {
       enabled: sessionData?.user !== undefined,
-      onSuccess: (data) => setSelectedSurvey(selectedSurvey ?? data[0] ?? null),
+      onSuccess: (data) => null,
     }
   );
 
@@ -75,9 +75,9 @@ const Content: React.FC = () => {
         <div className="divider" />
 
         <div>
-          {surveys?.map((survey) => (
+          {/* {surveys?.map((survey) => (
             <button>{survey.name}</button>
-          ))}
+          ))} */}
         </div>
 
         <Link href="/createsurvey">

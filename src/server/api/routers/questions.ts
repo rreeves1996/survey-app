@@ -21,12 +21,14 @@ export const questionRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      return ctx.prisma.question.create({
-        data: {
-          questionType: input.questionType,
-          questionBody: input.questionBody,
-          surveyId: input.surveyId,
-        },
+      return ctx.prisma.question.createMany({
+        data: [
+          {
+            questionType: input.questionType,
+            questionBody: input.questionBody,
+            surveyId: input.surveyId,
+          },
+        ],
       });
     }),
 });

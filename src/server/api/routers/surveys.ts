@@ -17,6 +17,7 @@ export const surveyRouter = createTRPCRouter({
         data: {
           name: input.name,
           userId: ctx.session.user.id,
+
         },
       });
     }),
