@@ -4,8 +4,19 @@ import React, { useState } from "react";
 import QuestionForm from "~/components/QuestionForm";
 
 export default function index() {
+  const [surveyName, setSurveyName] = useState<string>("");
   const [showQuestionForm, setShowQuestionForm] = useState<boolean>(false);
   const [currentQuestions, setCurrentQuestions] = useState<FormQuestion[]>([]);
+
+  const handleRemoveQuestion = (question: FormQuestion) => {
+    const newCurrentQuestions = currentQuestions.filter(
+      (item) => item !== question
+    );
+
+    setCurrentQuestions(newCurrentQuestions);
+
+    console.log(newCurrentQuestions);
+  };
 
   return (
     <div className="card mt-2 h-fit w-full shadow-xl lg:w-96">
@@ -29,7 +40,9 @@ export default function index() {
               type="text"
               name="name"
               placeholder="New survey"
+              value={surveyName}
               className="input input-bordered input-sm ml-2 w-full"
+              onChange={(e) => setSurveyName(e.target.value)}
             />
           </div>
         </form>
@@ -42,6 +55,45 @@ export default function index() {
           <strong>FREQUENCY</strong> questions allow the user to respond with
           their frequency (1-5), with 1 being "never" and 5 being "always."
         </p>
+
+        {currentQuestions &&
+          currentQuestions.map((question) => (
+            <div className="flex">
+              <div className="collapse collapse-arrow rounded-md bg-base-200 bg-opacity-50 transition-all hover:bg-opacity-100">
+                <input type="checkbox" className="min-h-8" />
+                <div className="collapse-title min-h-8 pb-0 pl-3 pt-1 text-sm font-medium">
+                  Question {currentQuestions.indexOf(question) + 1}
+                </div>
+                <div className="collapse-content text-xs">
+                  <p>{question.questionBody}</p>
+                </div>
+              </div>
+              <div
+                className="tooltip tooltip-bottom"
+                data-tip="delete question"
+              >
+                <button
+                  className="min-w-8 btn btn-square min-h-8 ml-2 h-8 w-8 bg-opacity-50"
+                  onClick={() => handleRemoveQuestion(question)}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-4 w-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          ))}
 
         <QuestionForm
           showQuestionForm={showQuestionForm}
