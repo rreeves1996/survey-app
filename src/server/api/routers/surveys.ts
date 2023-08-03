@@ -7,8 +7,24 @@ export const surveyRouter = createTRPCRouter({
       where: {
         userId: ctx.session.user.id,
       },
+      include: {
+        questions: true,
+      },
     });
   }),
+
+  getOne: protectedProcedure
+    .input(z.object({ surveyId: z.string() }))
+    .query(({ ctx, input }) => {
+      return ctx.prisma.survey.findMany({
+        where: {
+          id: input.surveyId,
+        },
+        include: {
+          questions: true,
+        },
+      });
+    }),
 
   create: protectedProcedure
     .input(z.object({ name: z.string() }))
@@ -17,7 +33,6 @@ export const surveyRouter = createTRPCRouter({
         data: {
           name: input.name,
           userId: ctx.session.user.id,
-
         },
       });
     }),

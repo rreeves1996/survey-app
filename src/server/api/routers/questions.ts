@@ -4,7 +4,7 @@ import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 export const questionRouter = createTRPCRouter({
   getAll: protectedProcedure
     .input(z.object({ surveyId: z.string() }))
-    .query(({ ctx, input }) => {
+    .query(async ({ ctx, input }) => {
       return ctx.prisma.question.findMany({
         where: {
           surveyId: input.surveyId,
@@ -21,14 +21,12 @@ export const questionRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      return ctx.prisma.question.createMany({
-        data: [
-          {
-            questionType: input.questionType,
-            questionBody: input.questionBody,
-            surveyId: input.surveyId,
-          },
-        ],
+      return ctx.prisma.question.create({
+        data: {
+          questionType: input.questionType,
+          questionBody: input.questionBody,
+          surveyId: input.surveyId,
+        },
       });
     }),
 });

@@ -46,7 +46,7 @@ const Content: React.FC = () => {
     undefined,
     {
       enabled: sessionData?.user !== undefined,
-      onSuccess: (data) => null,
+      onSuccess: (data) => console.log(data),
     }
   );
 
@@ -97,10 +97,7 @@ const Content: React.FC = () => {
             <div className="collapse-content">
               <p>hello</p>
               <BsFillEyeFill
-                onClick={() => {
-                  localStorage.setItem("survey", JSON.stringify(survey));
-                  router.push("/survey");
-                }}
+                onClick={() => router.push(`/survey/${survey.id}`)}
               />
             </div>
           </div>
