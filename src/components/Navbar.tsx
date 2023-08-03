@@ -1,15 +1,20 @@
 import { signIn, signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 export const Navbar = () => {
   const { data: sessionData } = useSession();
+  const router = useRouter();
 
   return (
     <div className="navbar bg-slate-800">
-      <h6 className=" flex-1 px-2 text-3xl font-extralight tracking-tight text-white">
-        survey
-        <span className="font-medium  text-[hsl(214,100%,79%)]">Friend</span>
-      </h6>
-      <div className="flex-none gap-2">
+      <button className="flex-1 px-2" onClick={() => router.push("/")}>
+        <h6 className="  text-3xl font-extralight tracking-tight text-white">
+          survey
+          <span className="font-medium  text-[hsl(214,100%,79%)]">Friend</span>
+        </h6>
+      </button>
+
+      <div className="tooltip tooltip-left flex-none gap-2" data-tip="sign out">
         <div className="dropdown dropdown-end">
           <label
             tabIndex={0}

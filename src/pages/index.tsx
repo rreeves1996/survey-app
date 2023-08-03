@@ -65,6 +65,7 @@ const Content: React.FC = () => {
           );
 
           setSelectedSurvey(selectedSurvey[0]);
+          localStorage.removeItem("surveyId");
         }
       });
     }
