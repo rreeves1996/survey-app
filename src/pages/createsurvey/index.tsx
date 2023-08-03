@@ -1,6 +1,7 @@
 import { Question } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 import QuestionForm from "~/components/QuestionForm";
 import { api } from "~/utils/api";
@@ -15,6 +16,7 @@ const DUMMY_DATA = [
 ];
 
 export default function index() {
+  const router = useRouter();
   const { data: sessionData } = useSession();
 
   const [currentPage, setCurrentPage] = useState<number>(0);
@@ -24,19 +26,30 @@ export default function index() {
     ...DUMMY_DATA,
   ]);
 
+  const { refetch: refetchSurveys } = api.survey.getAll.useQuery(undefined, {
+    enabled: sessionData?.user !== undefined,
+    onSuccess: (data) => null,
+  });
+
   const createQuestion = api.question.create.useMutation({
-    onSuccess: () => null,
+    onSuccess: () => {
+      refetchSurveys();
+      router.push("/");
+    },
   });
 
   const createSurvey = api.survey.create.useMutation({
-    onSuccess: (data) =>
+    onSuccess: (data) => {
       currentQuestions.map((question) =>
         createQuestion.mutate({
           surveyId: data.id,
           questionType: question.questionType,
           questionBody: question.questionBody,
         })
-      ),
+      );
+
+      localStorage.setItem("surveyID", data.id);
+    },
   });
 
   const handleRemoveQuestion = (question: FormQuestion) => {

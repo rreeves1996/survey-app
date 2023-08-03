@@ -1,16 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { api } from "~/utils/api";
 import { Survey } from "@prisma/client";
+import { BsFillEyeFill } from "react-icons/bs";
+import { useRouter } from "next/router";
 
 export default function Home() {
   const { data: sessionData } = useSession();
-
-  const { data: secretMessage } = api.example.getSecretMessage.useQuery(
-    undefined, // no input
-    { enabled: sessionData?.user !== undefined }
-  );
 
   if (!sessionData?.user) {
     return (
@@ -41,9 +38,9 @@ export default function Home() {
 }
 
 const Content: React.FC = () => {
+  const router = useRouter();
   const { data: sessionData } = useSession();
-
-  const [selectedSurvey, setSelectedSurvey] = useState<Survey | null>(null);
+  const [selectedSurvey, setSelectedSurvey] = useState<Survey>();
 
   const { data: surveys, refetch: refetchSurveys } = api.survey.getAll.useQuery(
     undefined,
@@ -53,40 +50,68 @@ const Content: React.FC = () => {
     }
   );
 
-  const createSurvey = api.survey.create.useMutation({
-    onSuccess: () => {
-      void refetchSurveys();
-    },
-  });
-
   const deleteSurvey = api.survey.delete.useMutation({
     onSuccess: () => {
       void refetchSurveys();
     },
   });
 
-  if (!selectedSurvey) {
-    return (
-      <>
-        <h1 className="text-center text-4xl font-extralight tracking-wider text-slate-100">
-          Your Surveys
-        </h1>
+  useEffect(() => {
+    if (localStorage.getItem("surveyID")) {
+      refetchSurveys().then((res) => {
+        if (res.data) {
+          const selectedSurvey = res.data.filter(
+            (survey) => survey.id === localStorage.getItem("surveyID")
+          );
 
-        <div className="divider" />
+          setSelectedSurvey(selectedSurvey[0]);
+        }
+      });
+    }
+  }, []);
 
-        <div>
-          {/* {surveys?.map((survey) => (
-            <button>{survey.name}</button>
-          ))} */}
-        </div>
+  return (
+    <>
+      <h1 className="text-center text-4xl font-extralight tracking-wider text-slate-100">
+        Your Surveys
+      </h1>
 
-        <Link href="/createsurvey">
-          <button className="btn btn-accent btn-outline btn-block">
-            Create New
-          </button>
-        </Link>
-      </>
-    );
-  } else {
-  }
+      <div className="divider" />
+
+      <div className="flex flex-col">
+        {surveys?.map((survey) => (
+          <div
+            className="collapse bg-base-200"
+            onClick={() => setSelectedSurvey(survey)}
+          >
+            <input
+              type="radio"
+              name="my-accordion-1"
+              checked={
+                selectedSurvey && selectedSurvey.id === survey.id ? true : false
+              }
+            />
+            <div className="collapse-title text-xl font-medium">
+              {survey.name}
+            </div>
+            <div className="collapse-content">
+              <p>hello</p>
+              <BsFillEyeFill
+                onClick={() => {
+                  localStorage.setItem("survey", JSON.stringify(survey));
+                  router.push("/survey");
+                }}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <Link href="/createsurvey">
+        <button className="btn btn-accent btn-outline btn-block">
+          Create New
+        </button>
+      </Link>
+    </>
+  );
 };
