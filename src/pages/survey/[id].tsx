@@ -1,9 +1,11 @@
+import { Question, Survey } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import QuestionForm from "~/components/QuestionForm";
 import { api } from "~/utils/api";
+import { v4 } from "uuid";
 
 export default function Page() {
   const router = useRouter();
@@ -11,26 +13,31 @@ export default function Page() {
 
   const { data: survey, refetch: refetchSurvey } = api.survey.getOne.useQuery(
     {
-      surveyId: router.query.id!.toString(),
+      surveyId: router.query.id! as string,
     },
     {
       enabled: sessionData?.user !== undefined,
-      onSuccess: (data) => console.log(data),
+      onSuccess: () => null,
     }
   );
 
-  if (survey![0]!.userId === sessionData?.user.id) return <AdminPanel />;
-  return <p>Post: {router.query.id}</p>;
+  if (survey?.userId === sessionData?.user.id)
+    return <AdminPanel survey={survey!} />;
+  else return <p>Survey: {router.query.id}</p>;
 }
 
-function AdminPanel() {
+type AdminPanelProps = { survey: Partial<Survey> & { questions: Question[] } };
+
+function AdminPanel({ survey }: AdminPanelProps) {
   const router = useRouter();
   const { data: sessionData } = useSession();
 
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [surveyName, setSurveyName] = useState<string>("");
   const [showQuestionForm, setShowQuestionForm] = useState<boolean>(false);
-  const [currentQuestions, setCurrentQuestions] = useState<FormQuestion[]>([]);
+  const [currentQuestions, setCurrentQuestions] = useState<
+    FormQuestion[] | Question[]
+  >(() => survey && [...survey.questions]);
 
   const { refetch: refetchSurveys } = api.survey.getAll.useQuery(undefined, {
     enabled: sessionData?.user !== undefined,
@@ -46,19 +53,18 @@ function AdminPanel() {
 
   const createSurvey = api.survey.create.useMutation({
     onSuccess: (data) => {
-      currentQuestions.map((question) =>
-        createQuestion.mutate({
-          surveyId: data.id,
-          questionType: question.questionType,
-          questionBody: question.questionBody,
-        })
-      );
-
-      localStorage.setItem("surveyID", data.id);
+      currentQuestions &&
+        currentQuestions.map((question) =>
+          createQuestion.mutate({
+            surveyId: data.id,
+            questionType: question.questionType,
+            questionBody: question.questionBody,
+          })
+        );
     },
   });
 
-  const handleRemoveQuestion = (question: FormQuestion) => {
+  const handleRemoveQuestion = (question: FormQuestion | Question) => {
     const newCurrentQuestions = currentQuestions.filter(
       (item) => item !== question
     );
@@ -108,11 +114,15 @@ function AdminPanel() {
           currentQuestions
             .slice(currentPage * 5, 5 + currentPage * 5)
             .map((question) => (
-              <div className="flex">
+              <div className="flex" key={v4()}>
                 <div className="collapse-arrow collapse rounded-md bg-base-200 bg-opacity-50 transition-all hover:bg-opacity-100">
                   <input type="checkbox" className="min-h-8" />
                   <div className="collapse-title min-h-8 flex w-full justify-between pb-0 pl-3 pt-1 text-sm font-medium">
-                    <p>Question {currentQuestions.indexOf(question) + 1}</p>
+                    <p>
+                      Question{" "}
+                      {currentQuestions &&
+                        currentQuestions.indexOf(question as Question) + 1}
+                    </p>
                     <p className="flex-grow-0">{question.questionType}</p>
                   </div>
                   <div className="collapse-content text-xs">
@@ -164,7 +174,7 @@ function AdminPanel() {
 
         <div
           className={`join mt-2 w-full justify-center ${
-            currentQuestions.length <= 4 ? "hidden" : ""
+            currentPage && currentQuestions.length <= 4 ? "hidden" : ""
           }`}
         >
           <button
@@ -180,15 +190,10 @@ function AdminPanel() {
           </button>
           <button
             className="btn join-item  min-h-6 h-8"
-            onClick={() => {
-              if (currentQuestions.length / 5 >= currentPage + 1) {
-                setCurrentPage(currentPage + 1);
-                console.log(currentPage);
-                console.log(currentQuestions.length / 5);
-              } else {
-                console.log("no");
-              }
-            }}
+            onClick={() =>
+              currentQuestions.length / 5 >= currentPage + 1 &&
+              setCurrentPage(currentPage + 1)
+            }
           >
             »
           </button>

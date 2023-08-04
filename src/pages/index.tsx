@@ -56,21 +56,6 @@ const Content: React.FC = () => {
     },
   });
 
-  useEffect(() => {
-    if (localStorage.getItem("surveyID")) {
-      refetchSurveys().then((res) => {
-        if (res.data) {
-          const selectedSurvey = res.data.filter(
-            (survey) => survey.id === localStorage.getItem("surveyID")
-          );
-
-          setSelectedSurvey(selectedSurvey[0]);
-          localStorage.removeItem("surveyId");
-        }
-      });
-    }
-  }, []);
-
   return (
     <>
       <h1 className="text-center text-4xl font-extralight tracking-wider text-slate-100">

@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 import QuestionForm from "~/components/QuestionForm";
 import { api } from "~/utils/api";
+import { v4 } from "uuid";
 
 const DUMMY_DATA = [
   { questionType: "T/F", questionBody: "hello" },
@@ -47,8 +48,6 @@ export default function index() {
           questionBody: question.questionBody,
         })
       );
-
-      localStorage.setItem("surveyID", data.id);
     },
   });
 
@@ -102,7 +101,7 @@ export default function index() {
           currentQuestions
             .slice(currentPage * 5, 5 + currentPage * 5)
             .map((question) => (
-              <div className="flex">
+              <div className="flex" key={v4()}>
                 <div className="collapse-arrow collapse rounded-md bg-base-200 bg-opacity-50 transition-all hover:bg-opacity-100">
                   <input type="checkbox" className="min-h-8" />
                   <div className="collapse-title min-h-8 flex w-full justify-between pb-0 pl-3 pt-1 text-sm font-medium">
@@ -174,15 +173,10 @@ export default function index() {
           </button>
           <button
             className="btn join-item  min-h-6 h-8"
-            onClick={() => {
-              if (currentQuestions.length / 5 >= currentPage + 1) {
-                setCurrentPage(currentPage + 1);
-                console.log(currentPage);
-                console.log(currentQuestions.length / 5);
-              } else {
-                console.log("no");
-              }
-            }}
+            onClick={() =>
+              currentQuestions.length / 5 >= currentPage + 1 &&
+              setCurrentPage(currentPage + 1)
+            }
           >
             »
           </button>

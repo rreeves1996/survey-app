@@ -16,7 +16,7 @@ export const surveyRouter = createTRPCRouter({
   getOne: protectedProcedure
     .input(z.object({ surveyId: z.string() }))
     .query(({ ctx, input }) => {
-      return ctx.prisma.survey.findMany({
+      return ctx.prisma.survey.findUnique({
         where: {
           id: input.surveyId,
         },
