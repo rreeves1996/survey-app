@@ -184,6 +184,7 @@ function AdminPanel({ survey }: AdminPanelProps) {
               <button
                 className="min-w-8 btn btn-square btn-accent min-h-8  h-8 w-8 bg-opacity-50"
                 disabled={survey && survey.active}
+                onClick={() => setIsActive(true)}
               >
                 <BsFillPlayFill />
               </button>
@@ -198,6 +199,7 @@ function AdminPanel({ survey }: AdminPanelProps) {
               <button
                 disabled={survey && !survey.active}
                 className={`min-w-8 btn btn-square btn-error min-h-8 ml-2 h-8 w-8 bg-opacity-50 text-slate-50`}
+                onClick={() => setIsActive(true)}
               >
                 <FaStop />
               </button>
