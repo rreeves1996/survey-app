@@ -186,7 +186,7 @@ export default function index() {
 
         <div className="flex flex-col items-center">
           <button
-            className={`btn btn-accent btn-outline btn-block mb-1 ${
+            className={`btn btn-accent btn-block mb-1 bg-opacity-50 hover:bg-opacity-100 ${
               !surveyName ? "btn-disabled" : ""
             }`}
             onClick={() => createSurvey.mutate({ name: surveyName })}

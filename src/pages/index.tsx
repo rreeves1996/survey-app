@@ -119,7 +119,7 @@ const Content: React.FC = () => {
       </div>
 
       <Link href="/createsurvey">
-        <button className="btn btn-accent btn-outline btn-block">
+        <button className="btn btn-accent btn-block bg-opacity-50 hover:bg-accent">
           Create New
         </button>
       </Link>
