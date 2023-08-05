@@ -1,5 +1,9 @@
 import { z } from "zod";
-import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+} from "~/server/api/trpc";
 
 export const surveyRouter = createTRPCRouter({
   getAll: protectedProcedure.query(({ ctx }) => {
@@ -13,7 +17,7 @@ export const surveyRouter = createTRPCRouter({
     });
   }),
 
-  getOne: protectedProcedure
+  getOne: publicProcedure
     .input(z.object({ surveyId: z.string() }))
     .query(({ ctx, input }) => {
       return ctx.prisma.survey.findUnique({

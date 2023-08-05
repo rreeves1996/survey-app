@@ -83,7 +83,7 @@ model Question {
     updatedAt    DateTime @updatedAt
     questionType String
     questionBody String   @db.Text
-    answer       Int?
+    answer       String?
     survey       Survey   @relation(fields: [surveyId], references: [id])
     surveyId     String
 }
