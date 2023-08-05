@@ -75,6 +75,8 @@ export default function QuestionForm({
               ]);
               setQuestionBody("");
               setShowQuestionForm(false);
+
+              console.log(currentQuestions);
             }
           }}
         >

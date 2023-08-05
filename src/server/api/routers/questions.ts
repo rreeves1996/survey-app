@@ -12,6 +12,28 @@ export const questionRouter = createTRPCRouter({
       });
     }),
 
+  update: protectedProcedure
+    .input(
+      z.object({
+        questionId: z.string(),
+        questionType: z.string(),
+        questionBody: z.string(),
+        surveyId: z.string(),
+      })
+    )
+    .mutation(({ ctx, input }) => {
+      return ctx.prisma.question.update({
+        data: {
+          questionType: input.questionType,
+          questionBody: input.questionBody,
+          surveyId: input.surveyId,
+        },
+        where: {
+          id: input.questionId,
+        },
+      });
+    }),
+
   create: protectedProcedure
     .input(
       z.object({

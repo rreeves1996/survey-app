@@ -26,7 +26,7 @@ export const surveyRouter = createTRPCRouter({
       });
     }),
 
-  edit: protectedProcedure
+  update: protectedProcedure
     .input(
       z.object({ surveyId: z.string(), name: z.string(), active: z.boolean() })
     )

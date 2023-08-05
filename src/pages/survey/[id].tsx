@@ -2,7 +2,7 @@ import { Question, Survey } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import QuestionForm from "~/components/QuestionForm";
 import { api } from "~/utils/api";
 import { v4 } from "uuid";
@@ -38,10 +38,17 @@ function AdminPanel({ survey }: AdminPanelProps) {
   const [surveyName, setSurveyName] = useState<string>(
     survey ? survey.name! : ""
   );
+  const [isActive, setIsActive] = useState<boolean>(
+    survey ? survey.active! : true
+  );
   const [showQuestionForm, setShowQuestionForm] = useState<boolean>(false);
-  const [currentQuestions, setCurrentQuestions] = useState<
-    FormQuestion[] | Question[]
-  >(() => survey && [...survey.questions]);
+  const [oldQuestions, setOldQuestions] = useState<Question[]>(
+    () => survey && [...survey.questions]
+  );
+  const [newQuestions, setNewQuestions] = useState<FormQuestion[]>([]);
+  const [allQuestions, setAllQuestions] = useState<
+    Array<Question | FormQuestion>
+  >([]);
 
   const { refetch: refetchSurveys } = api.survey.getAll.useQuery(undefined, {
     enabled: sessionData?.user !== undefined,
@@ -49,32 +56,67 @@ function AdminPanel({ survey }: AdminPanelProps) {
   });
 
   const createQuestion = api.question.create.useMutation({
-    onSuccess: () => {
-      refetchSurveys();
-      router.push("/");
+    onSuccess: () => {},
+  });
+
+  const updateQuestion = api.question.update.useMutation({
+    onSuccess: (data) => {
+      console.log(`Update: ${data}`);
     },
   });
 
-  const createSurvey = api.survey.create.useMutation({
+  const updateSurvey = api.survey.update.useMutation({
     onSuccess: (data) => {
-      currentQuestions &&
-        currentQuestions.map((question) =>
-          createQuestion.mutate({
-            surveyId: data.id,
-            questionType: question.questionType,
-            questionBody: question.questionBody,
-          })
-        );
+      // Create new questions
+      newQuestions.map((question) =>
+        createQuestion.mutate({
+          surveyId: data.id,
+          questionType: question.questionType,
+          questionBody: question.questionBody,
+        })
+      );
+
+      // Update old questions
+      oldQuestions.map((question) =>
+        updateQuestion.mutate({
+          surveyId: data.id,
+          questionType: question.questionType,
+          questionBody: question.questionBody,
+          questionId: question.id,
+        })
+      );
+
+      refetchSurveys();
     },
   });
 
   const handleRemoveQuestion = (question: FormQuestion | Question) => {
-    const newCurrentQuestions = currentQuestions.filter(
-      (item) => item !== question
-    );
+    if (question.hasOwnProperty("id")) {
+      const filteredQuestions = oldQuestions.filter(
+        (item) => item !== question
+      );
 
-    setCurrentQuestions(newCurrentQuestions);
+      setOldQuestions(filteredQuestions);
+    } else {
+      const filteredQuestions = newQuestions.filter(
+        (item) => item !== question
+      );
+
+      setNewQuestions(filteredQuestions);
+    }
   };
+
+  useEffect(() => {
+    if (oldQuestions && newQuestions) {
+      setAllQuestions((prevState) => [...oldQuestions, ...newQuestions]);
+    } else if (newQuestions && !oldQuestions) {
+      setAllQuestions((prevState) => [...newQuestions]);
+    } else if (!newQuestions && oldQuestions) {
+      setAllQuestions((prevState) => [...oldQuestions]);
+    } else {
+      setAllQuestions((prevState) => []);
+    }
+  }, [oldQuestions, newQuestions]);
 
   return (
     <div className="card mt-2 h-fit w-full shadow-xl lg:w-96">
@@ -162,8 +204,9 @@ function AdminPanel({ survey }: AdminPanelProps) {
             </div>
           </div>
         </div>
-        {currentQuestions &&
-          currentQuestions
+
+        {allQuestions &&
+          allQuestions
             .slice(currentPage * 5, 5 + currentPage * 5)
             .map((question) => (
               <div className="flex" key={v4()}>
@@ -172,8 +215,8 @@ function AdminPanel({ survey }: AdminPanelProps) {
                   <div className="collapse-title min-h-8 flex w-full justify-between pb-0 pl-3 pt-1 text-sm font-medium">
                     <p>
                       Question{" "}
-                      {currentQuestions &&
-                        currentQuestions.indexOf(question as Question) + 1}
+                      {allQuestions &&
+                        allQuestions.indexOf(question as Question) + 1}
                     </p>
                     <p className="flex-grow-0">{question.questionType}</p>
                   </div>
@@ -211,8 +254,8 @@ function AdminPanel({ survey }: AdminPanelProps) {
         <QuestionForm
           showQuestionForm={showQuestionForm}
           setShowQuestionForm={setShowQuestionForm}
-          currentQuestions={currentQuestions}
-          setCurrentQuestions={setCurrentQuestions}
+          currentQuestions={newQuestions}
+          setCurrentQuestions={setNewQuestions}
         />
 
         <button
@@ -226,7 +269,9 @@ function AdminPanel({ survey }: AdminPanelProps) {
 
         <div
           className={`join mt-2 w-full justify-center ${
-            currentPage && currentQuestions.length <= 4 ? "hidden" : ""
+            currentPage && oldQuestions.length + newQuestions.length <= 4
+              ? "hidden"
+              : ""
           }`}
         >
           <button
@@ -241,8 +286,8 @@ function AdminPanel({ survey }: AdminPanelProps) {
           <button
             className="btn join-item  min-h-6 h-8"
             onClick={() =>
-              currentQuestions.length / 5 >= currentPage + 1 &&
-              setCurrentPage(currentPage + 1)
+              oldQuestions.length + newQuestions.length / 5 >=
+                currentPage + 1 && setCurrentPage(currentPage + 1)
             }
           >
             »
@@ -256,7 +301,15 @@ function AdminPanel({ survey }: AdminPanelProps) {
             className={`btn btn-accent btn-outline btn-block mb-1 ${
               !surveyName ? "btn-disabled" : ""
             }`}
-            onClick={() => createSurvey.mutate({ name: surveyName })}
+            onClick={() => {
+              survey &&
+                updateSurvey.mutate({
+                  name: surveyName,
+                  surveyId: survey.id as string,
+                  active: isActive,
+                });
+              router.push("/");
+            }}
           >
             Submit Edit
           </button>
