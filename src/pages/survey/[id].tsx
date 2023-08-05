@@ -6,6 +6,8 @@ import { useState } from "react";
 import QuestionForm from "~/components/QuestionForm";
 import { api } from "~/utils/api";
 import { v4 } from "uuid";
+import { BsFillPlayFill } from "react-icons/bs";
+import { FaStop } from "react-icons/fa";
 
 export default function Page() {
   const router = useRouter();
@@ -107,11 +109,59 @@ function AdminPanel({ survey }: AdminPanelProps) {
           <strong>TRUE/FALSE</strong> questions allow the user to answer with
           either true or false.
         </p>
-        <p className="mb-2 text-sm">
+        <p className="mb-1 text-sm">
           <strong>FREQUENCY</strong> questions allow the user to respond with
           their frequency (1-5), with 1 being "never" and 5 being "always."
         </p>
 
+        <div className="mb-5 flex items-center justify-between">
+          <div>
+            <p>
+              Survey is currently{" "}
+              <span
+                className={`font-medium ${
+                  survey && survey.active ? "text-accent" : "text-red-800"
+                }`}
+              >
+                {survey && survey.active ? "active" : "inactive"}
+              </span>
+            </p>
+
+            <p className="ml-2 text-xs">
+              - active until <strong>date</strong>
+            </p>
+          </div>
+
+          <div className=" flex justify-around">
+            <div
+              className={`${
+                survey && !survey.active ? "tooltip tooltip-bottom" : ""
+              }`}
+              data-tip="start survey"
+            >
+              <button
+                className="min-w-8 btn btn-square btn-accent min-h-8  h-8 w-8 bg-opacity-50"
+                disabled={survey && survey.active}
+              >
+                <BsFillPlayFill />
+              </button>
+            </div>
+
+            <div
+              className={`${
+                survey && survey.active ? "tooltip tooltip-bottom" : ""
+              }`}
+              data-tip="stop survey"
+            >
+              <button
+                disabled={survey && !survey.active}
+                className={`min-w-8 btn btn-square btn-error min-h-8 ml-2 h-8 w-8 bg-opacity-50 text-slate-50`}
+              >
+                <FaStop />
+              </button>
+            </div>
+          </div>
+        </div>
         {currentQuestions &&
           currentQuestions
             .slice(currentPage * 5, 5 + currentPage * 5)
@@ -181,9 +231,7 @@ function AdminPanel({ survey }: AdminPanelProps) {
         >
           <button
             className="btn join-item min-h-6 h-8"
-            onClick={() =>
-              currentPage !== 0 ? setCurrentPage(currentPage - 1) : null
-            }
+            onClick={() => currentPage !== 0 && setCurrentPage(currentPage - 1)}
           >
             «
           </button>
