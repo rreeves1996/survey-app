@@ -62,8 +62,8 @@ export default function index() {
   return (
     <div className="card mt-2 h-fit w-full shadow-xl lg:w-96">
       <div className="card-body rounded-md bg-slate-800 pb-4">
-        <h1 className="text-center text-4xl font-extralight tracking-wider text-slate-100">
-          Create Survey
+        <h1 className="text-center text-6xl font-extralight uppercase tracking-widest text-slate-100">
+          Create
         </h1>
 
         <div className="divider" />

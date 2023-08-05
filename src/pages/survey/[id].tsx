@@ -33,7 +33,9 @@ function AdminPanel({ survey }: AdminPanelProps) {
   const { data: sessionData } = useSession();
 
   const [currentPage, setCurrentPage] = useState<number>(0);
-  const [surveyName, setSurveyName] = useState<string>("");
+  const [surveyName, setSurveyName] = useState<string>(
+    survey ? survey.name! : ""
+  );
   const [showQuestionForm, setShowQuestionForm] = useState<boolean>(false);
   const [currentQuestions, setCurrentQuestions] = useState<
     FormQuestion[] | Question[]
@@ -75,8 +77,8 @@ function AdminPanel({ survey }: AdminPanelProps) {
   return (
     <div className="card mt-2 h-fit w-full shadow-xl lg:w-96">
       <div className="card-body rounded-md bg-slate-800 pb-4">
-        <h1 className="text-center text-4xl font-extralight tracking-wider text-slate-100">
-          Create Survey
+        <h1 className="text-center text-6xl font-extralight uppercase tracking-widest text-slate-100">
+          Edit
         </h1>
 
         <div className="divider" />
@@ -208,7 +210,7 @@ function AdminPanel({ survey }: AdminPanelProps) {
             }`}
             onClick={() => createSurvey.mutate({ name: surveyName })}
           >
-            Create Survey
+            Submit Edit
           </button>
 
           <Link href="/">

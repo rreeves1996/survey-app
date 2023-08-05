@@ -58,33 +58,61 @@ const Content: React.FC = () => {
 
   return (
     <>
-      <h1 className="text-center text-4xl font-extralight tracking-wider text-slate-100">
-        Your Surveys
+      <h1 className="text-center text-6xl font-extralight uppercase tracking-widest text-slate-100">
+        Home
       </h1>
 
       <div className="divider" />
 
       <div className="flex flex-col">
         {surveys?.map((survey) => (
-          <div
-            className="collapse bg-base-200"
-            onClick={() => setSelectedSurvey(survey)}
-          >
-            <input
-              type="radio"
-              name="my-accordion-1"
-              checked={
-                selectedSurvey && selectedSurvey.id === survey.id ? true : false
-              }
-            />
-            <div className="collapse-title text-xl font-medium">
-              {survey.name}
-            </div>
-            <div className="collapse-content">
-              <p>hello</p>
-              <BsFillEyeFill
-                onClick={() => router.push(`/survey/${survey.id}`)}
+          <div className="flex">
+            <div
+              className={` collapse mb-2 rounded-md bg-base-200 transition-all hover:bg-opacity-100 ${
+                selectedSurvey && selectedSurvey.id === survey.id
+                  ? "bg-opacity-75"
+                  : "bg-opacity-50"
+              }`}
+              onClick={() => setSelectedSurvey(survey)}
+            >
+              <input
+                type="radio"
+                name="my-accordion-1"
+                className="min-h-8 cursor-pointer"
+                checked={
+                  selectedSurvey && selectedSurvey.id === survey.id
+                    ? true
+                    : false
+                }
               />
+              <div className="collapse-title min-h-8 flex w-full justify-between pb-0 pl-3 pt-1 text-sm font-medium">
+                {survey.name}
+              </div>
+              <div className="collapse-content">
+                <p>hello</p>
+                <BsFillEyeFill
+                  onClick={() => router.push(`/survey/${survey.id}`)}
+                />
+              </div>
+            </div>
+
+            <div className="tooltip tooltip-bottom" data-tip="delete survey">
+              <button className="min-w-8 btn btn-square min-h-8 ml-2 h-8 w-8 bg-opacity-50">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
             </div>
           </div>
         ))}
