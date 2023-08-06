@@ -36,7 +36,7 @@ function AdminPanel({
   refetchSurvey,
 }: {
   survey: SurveyWithQuestions;
-  refetchSurvey: () => null;
+  refetchSurvey: () => void;
 }) {
   const router = useRouter();
   const { data: sessionData } = useSession();
