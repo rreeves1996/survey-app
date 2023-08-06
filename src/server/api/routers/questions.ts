@@ -1,8 +1,12 @@
 import { z } from "zod";
-import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+} from "~/server/api/trpc";
 
 export const questionRouter = createTRPCRouter({
-  getAll: protectedProcedure
+  getAll: publicProcedure
     .input(z.object({ surveyId: z.string() }))
     .query(async ({ ctx, input }) => {
       return ctx.prisma.question.findMany({
@@ -50,5 +54,11 @@ export const questionRouter = createTRPCRouter({
           surveyId: input.surveyId,
         },
       });
+    }),
+
+  delete: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      return ctx.prisma.question.delete({ where: { id: input.id } });
     }),
 });

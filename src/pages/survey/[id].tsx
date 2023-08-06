@@ -9,10 +9,7 @@ import { v4 } from "uuid";
 import { BsFillPlayFill } from "react-icons/bs";
 import { FaStop } from "react-icons/fa";
 
-type SurveyWithQuestions = {
-  survey: Partial<Survey> & { questions: Question[] };
-};
-
+type SurveyWithQuestions = Partial<Survey> & { questions: Question[] };
 export default function Page() {
   const router = useRouter();
   const { data: sessionData } = useSession();
@@ -29,12 +26,18 @@ export default function Page() {
 
   if (survey) {
     if (survey?.userId === sessionData?.user.id)
-      return <AdminPanel survey={survey} />;
+      return <AdminPanel survey={survey} refetchSurvey={refetchSurvey} />;
     else return <UserSurvey survey={survey} />;
   } else return <h1>Loading</h1>;
 }
 
-function AdminPanel({ survey }: SurveyWithQuestions) {
+function AdminPanel({
+  survey,
+  refetchSurvey,
+}: {
+  survey: SurveyWithQuestions;
+  refetchSurvey: () => null;
+}) {
   const router = useRouter();
   const { data: sessionData } = useSession();
 
@@ -54,10 +57,13 @@ function AdminPanel({ survey }: SurveyWithQuestions) {
     Array<Question | FormQuestion>
   >([]);
 
-  const { refetch: refetchSurveys } = api.survey.getAll.useQuery(undefined, {
-    enabled: sessionData?.user !== undefined,
-    onSuccess: (data) => null,
-  });
+  const { refetch: refetchQuestions } = api.question.getAll.useQuery(
+    { surveyId: survey.id as string },
+    {
+      enabled: sessionData?.user !== undefined,
+      onSuccess: (data) => null,
+    }
+  );
 
   const createQuestion = api.question.create.useMutation({
     onSuccess: () => {},
@@ -67,6 +73,10 @@ function AdminPanel({ survey }: SurveyWithQuestions) {
     onSuccess: (data) => {
       console.log(`Update: ${data}`);
     },
+  });
+
+  const deleteQuestion = api.question.delete.useMutation({
+    onSuccess: () => null,
   });
 
   const updateSurvey = api.survey.update.useMutation({
@@ -90,7 +100,8 @@ function AdminPanel({ survey }: SurveyWithQuestions) {
         })
       );
 
-      refetchSurveys();
+      refetchSurvey();
+      refetchQuestions();
     },
   });
 
@@ -100,13 +111,16 @@ function AdminPanel({ survey }: SurveyWithQuestions) {
         (item) => item !== question
       );
 
-      setOldQuestions(filteredQuestions);
+      deleteQuestion.mutate({ id: question.id as string });
+      setOldQuestions((prevState) => filteredQuestions);
+      setAllQuestions((prevState) => [...filteredQuestions, ...newQuestions]);
     } else {
       const filteredQuestions = newQuestions.filter(
-        (item) => item !== question
+        (item) => item.id !== question.id
       );
 
-      setNewQuestions(filteredQuestions);
+      setNewQuestions((prevState) => filteredQuestions);
+      setAllQuestions((prevState) => [...oldQuestions, ...filteredQuestions]);
     }
   };
 
@@ -120,8 +134,11 @@ function AdminPanel({ survey }: SurveyWithQuestions) {
     } else {
       setAllQuestions((prevState) => []);
     }
-  }, [oldQuestions, newQuestions]);
+  }, [newQuestions, oldQuestions]);
 
+  console.log(oldQuestions);
+  console.log(newQuestions);
+  console.log(allQuestions);
   return (
     <div className="card mt-2 h-fit w-full shadow-xl lg:w-96">
       <div className="card-body rounded-md bg-slate-800 pb-4">
@@ -329,10 +346,9 @@ function AdminPanel({ survey }: SurveyWithQuestions) {
   );
 }
 
-function UserSurvey({ survey }: SurveyWithQuestions) {
-  const [currentSurvey, setCurrentSurvey] = useState<SurveyWithQuestions>({
-    survey,
-  });
+function UserSurvey({ survey }: { survey: SurveyWithQuestions }) {
+  const [currentSurvey, setCurrentSurvey] =
+    useState<SurveyWithQuestions>(survey);
   const [surveyQuestions, setSurveyQuestions] = useState<Question[]>([
     ...survey.questions,
   ]);
@@ -343,7 +359,7 @@ function UserSurvey({ survey }: SurveyWithQuestions) {
       <div className="card-body rounded-md bg-slate-800 pb-4">
         <header>
           <h3 className="mb-4 text-center text-4xl font-extralight uppercase tracking-widest text-slate-100">
-            {currentSurvey && currentSurvey.survey.name}
+            {currentSurvey && currentSurvey.name}
           </h3>
 
           <h6 className="mb-0 text-sm font-extralight tracking-widest text-slate-200">
