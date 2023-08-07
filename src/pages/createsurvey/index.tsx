@@ -204,7 +204,7 @@ export default function index() {
             Create Survey
           </button>
 
-          <Link href="/">
+          <Link href="/createsurvey/success">
             <button className="btn btn-ghost btn-sm mb-0 mt-2">Cancel</button>
           </Link>
         </div>

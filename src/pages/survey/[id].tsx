@@ -294,9 +294,7 @@ function AdminPanel({
 
         <div
           className={`join mt-2 w-full justify-center ${
-            currentPage && oldQuestions.length + newQuestions.length <= 4
-              ? "hidden"
-              : ""
+            allQuestions.length <= 4 ? "hidden" : ""
           }`}
         >
           <button
@@ -311,8 +309,8 @@ function AdminPanel({
           <button
             className="btn join-item  min-h-6 h-8"
             onClick={() =>
-              oldQuestions.length + newQuestions.length / 5 >=
-                currentPage + 1 && setCurrentPage(currentPage + 1)
+              allQuestions.length / 5 >= currentPage + 1 &&
+              setCurrentPage(currentPage + 1)
             }
           >
             »
@@ -333,7 +331,7 @@ function AdminPanel({
                   surveyId: survey.id as string,
                   active: isActive,
                 });
-              router.push("/");
+              router.push("/survey/editsuccess");
             }}
           >
             Submit Edit
