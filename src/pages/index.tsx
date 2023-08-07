@@ -3,8 +3,10 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { api } from "~/utils/api";
 import { Survey } from "@prisma/client";
-import { BsFillEyeFill } from "react-icons/bs";
+import { BiSolidEdit } from "react-icons/bi";
 import { useRouter } from "next/router";
+import { FaStop } from "react-icons/fa";
+import { BsFillPlayFill } from "react-icons/bs";
 
 export default function Home() {
   const { data: sessionData } = useSession();
@@ -68,7 +70,7 @@ const Content: React.FC = () => {
         {surveys?.map((survey) => (
           <div className="flex">
             <div
-              className={` collapse mb-2 rounded-md bg-base-200 transition-all hover:bg-opacity-100 ${
+              className={`collapse mb-2 rounded-md bg-base-200 py-0 transition-all hover:bg-opacity-100 ${
                 selectedSurvey && selectedSurvey.id === survey.id
                   ? "bg-opacity-75"
                   : "bg-opacity-50"
@@ -85,15 +87,59 @@ const Content: React.FC = () => {
                     : false
                 }
               />
-              <div className="collapse-title min-h-8 flex w-full justify-between pb-0 pl-3 pt-1 text-sm font-medium">
-                {survey.name}
+              <div className="collapse-title min-h-6 flex  w-full justify-between pb-0 pl-3 pr-1 pt-1 text-sm font-medium">
+                <span>{survey.name}</span>
+                {survey.active ? (
+                  <div className="font-sm badge badge-accent badge-outline h-5 text-xs">
+                    active
+                  </div>
+                ) : null}
               </div>
-              <div className="collapse-content">
-                <p>hello</p>
-                <BsFillEyeFill
+
+              <div className="collapse-content my-0 flex justify-between px-2">
+                <button
                   onClick={() => router.push(`/survey/${survey.id}`)}
-                />
+                  className="btn btn-ghost btn-xs"
+                >
+                  edit
+                </button>
+
+                <div className="flex">
+                  <div
+                    className={`${
+                      survey && !survey.active ? "tooltip tooltip-bottom" : ""
+                    }`}
+                    data-tip="start survey"
+                  >
+                    <button
+                      className="min-w-6 text-md btn btn-square btn-accent min-h-6  h-6 w-6 bg-opacity-50 "
+                      disabled={survey && survey.active}
+                    >
+                      <BsFillPlayFill />
+                    </button>
+                  </div>
+
+                  <div
+                    className={`${
+                      survey && survey.active ? "tooltip tooltip-bottom" : ""
+                    }`}
+                    data-tip="stop survey"
+                  >
+                    <button
+                      disabled={survey && !survey.active}
+                      className={`min-w-6 btn btn-square btn-error min-h-6 ml-1 h-6 w-6 bg-opacity-50 text-xs text-slate-50`}
+                    >
+                      <FaStop />
+                    </button>
+                  </div>
+                </div>
               </div>
+            </div>
+
+            <div className="tooltip tooltip-bottom" data-tip="edit survey">
+              <button className="min-w-8 btn btn-square min-h-8 ml-2 h-8 w-8 bg-opacity-50">
+                <BiSolidEdit />
+              </button>
             </div>
 
             <div className="tooltip tooltip-bottom" data-tip="delete survey">

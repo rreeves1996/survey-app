@@ -136,9 +136,6 @@ function AdminPanel({
     }
   }, [newQuestions, oldQuestions]);
 
-  console.log(oldQuestions);
-  console.log(newQuestions);
-  console.log(allQuestions);
   return (
     <div className="card mt-2 h-fit w-full shadow-xl lg:w-96">
       <div className="card-body rounded-md bg-slate-800 pb-4">
@@ -346,10 +343,12 @@ function AdminPanel({
   );
 }
 
+type SurveyQuestion = Partial<Question> & { answer?: string };
+
 function UserSurvey({ survey }: { survey: SurveyWithQuestions }) {
   const [currentSurvey, setCurrentSurvey] =
     useState<SurveyWithQuestions>(survey);
-  const [surveyQuestions, setSurveyQuestions] = useState<Question[]>([
+  const [surveyQuestions, setSurveyQuestions] = useState<SurveyQuestion[]>([
     ...survey.questions,
   ]);
   const [currentPage, setCurrentPage] = useState<number>(0);
@@ -447,7 +446,9 @@ function UserSurvey({ survey }: { survey: SurveyWithQuestions }) {
               setCurrentPage(currentPage + 1)
             }
           >
-            Next »
+            {surveyQuestions && currentPage === surveyQuestions!.length - 1
+              ? "Finish »"
+              : "Next »"}
           </button>
         </div>
       </div>

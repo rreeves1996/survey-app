@@ -8,12 +8,22 @@ import { api } from "~/utils/api";
 import { v4 } from "uuid";
 
 const DUMMY_DATA = [
-  { questionType: "T/F", questionBody: "hello" },
-  { questionType: "T/F", questionBody: "hello" },
-  { questionType: "T/F", questionBody: "hello" },
-  { questionType: "T/F", questionBody: "hello" },
-  { questionType: "T/F", questionBody: "hello" },
-  { questionType: "T/F", questionBody: "hello" },
+  { questionType: "T/F", questionBody: "This is a true/false question" },
+  {
+    questionType: "T/F",
+    questionBody: "This is the second true false question",
+  },
+  { questionType: "T/F", questionBody: "I am literally a potato" },
+  {
+    questionType: "T/F",
+    questionBody: "This is the fourth true false question",
+  },
+  {
+    questionType: "T/F",
+    questionBody:
+      "I have been searching for a job in web development for 11 months",
+  },
+  { questionType: "T/F", questionBody: "Piano is the best instrument" },
 ];
 
 export default function index() {

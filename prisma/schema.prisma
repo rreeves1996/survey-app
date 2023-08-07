@@ -83,7 +83,16 @@ model Question {
     updatedAt    DateTime @updatedAt
     questionType String
     questionBody String   @db.Text
-    answer       String?
     survey       Survey   @relation(fields: [surveyId], references: [id])
     surveyId     String
+    answers      Answer[]
+}
+
+model Answer {
+    id         String   @id @default(cuid())
+    createdAt  DateTime @default(now())
+    updatedAt  DateTime @updatedAt
+    answer     String
+    question   Question @relation(fields: [questionId], references: [id])
+    questionId String
 }
