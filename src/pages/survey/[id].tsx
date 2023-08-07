@@ -8,6 +8,8 @@ import { api } from "~/utils/api";
 import { v4 } from "uuid";
 import { BsFillPlayFill } from "react-icons/bs";
 import { FaStop } from "react-icons/fa";
+import SurveyCompleted from "~/components/SurveyCompleted";
+import SurveyInactive from "~/components/SurveyInactive";
 
 type SurveyWithQuestions = Partial<Survey> & { questions: Question[] };
 export default function Page() {
@@ -24,9 +26,13 @@ export default function Page() {
   );
 
   if (survey) {
-    if (survey?.userId === sessionData?.user.id)
+    if (survey?.userId === sessionData?.user.id) {
       return <AdminPanel survey={survey} refetchSurvey={refetchSurvey} />;
-    else return <UserSurvey survey={survey} refetchSurvey={refetchSurvey} />;
+    } else {
+      if (survey.active)
+        return <UserSurvey survey={survey} refetchSurvey={refetchSurvey} />;
+      else return <SurveyInactive />;
+    }
   } else return <span className="loading loading-spinner w-24" />;
 }
 
@@ -229,7 +235,7 @@ function AdminPanel({
             .slice(currentPage * 5, 5 + currentPage * 5)
             .map((question) => (
               <div className="flex" key={v4()}>
-                <div className="collapse collapse-arrow rounded-md bg-base-200 bg-opacity-50 transition-all hover:bg-opacity-100">
+                <div className="collapse-arrow collapse rounded-md bg-base-200 bg-opacity-50 transition-all hover:bg-opacity-100">
                   <input type="checkbox" className="min-h-8" />
                   <div className="collapse-title min-h-8 flex w-full justify-between pb-0 pl-3 pt-1 text-sm font-medium">
                     <p>
@@ -371,115 +377,124 @@ function UserSurvey({
         answer: question.answer as string,
       })
     );
-
-    router.push("/");
   };
-  return (
-    <div className="card mt-2 h-fit w-full shadow-xl lg:w-96">
-      <div className="card-body rounded-md bg-slate-800 pb-4">
-        <header>
-          <h3 className="mb-4 text-center text-4xl font-extralight uppercase tracking-widest text-slate-100">
-            {currentSurvey && currentSurvey.name}
-          </h3>
 
-          <h6 className="mb-0 text-sm font-extralight tracking-widest text-slate-200">
-            Question <strong>{currentPage + 1}</strong> of{" "}
-            <strong>{surveyQuestions && surveyQuestions.length}</strong>
-          </h6>
-        </header>
+  if (currentPage < currentSurvey.questions.length)
+    return (
+      <div className="card mt-2 h-fit w-full shadow-xl lg:w-96">
+        <div className="card-body rounded-md bg-slate-800 pb-4">
+          <header>
+            <h3 className="mb-4 text-center text-4xl font-extralight uppercase tracking-widest text-slate-100">
+              {currentSurvey && currentSurvey.name}
+            </h3>
 
-        <div className="divider my-0" />
+            <h6 className="mb-0 text-sm font-extralight tracking-widest text-slate-200">
+              Question <strong>{currentPage + 1}</strong> of{" "}
+              <strong>{surveyQuestions && surveyQuestions.length}</strong>
+            </h6>
+          </header>
 
-        <p>{surveyQuestions && surveyQuestions[currentPage]?.questionBody}</p>
+          <div className="divider my-0" />
 
-        <div className="flex w-full justify-evenly">
-          {surveyQuestions &&
-          surveyQuestions[currentPage]?.questionType === "T/F" ? (
-            <>
-              <label className="label flex cursor-pointer flex-col items-center">
-                <input
-                  type="checkbox"
-                  value="true"
-                  checked={
-                    surveyQuestions[currentPage]?.answer === "true"
-                      ? true
-                      : false
-                  }
-                  onChange={(e) => {
-                    const newQuestions = [...surveyQuestions!];
+          <p>{surveyQuestions && surveyQuestions[currentPage]?.questionBody}</p>
 
-                    newQuestions[currentPage]!.answer = e.target.value;
-                    console.log(newQuestions);
-                    setSurveyQuestions((prevQuestions) => newQuestions);
-                  }}
-                  className="checkbox checkbox-xs mb-1"
-                />
+          <div className="flex w-full justify-evenly">
+            {surveyQuestions &&
+            surveyQuestions[currentPage]?.questionType === "T/F" ? (
+              <>
+                <label className="label flex cursor-pointer flex-col items-center">
+                  <input
+                    type="checkbox"
+                    value="true"
+                    checked={
+                      surveyQuestions[currentPage]?.answer === "true"
+                        ? true
+                        : false
+                    }
+                    onChange={(e) => {
+                      const newQuestions = [...surveyQuestions!];
 
-                <span className="label-text text-xs font-bold uppercase">
-                  True
-                </span>
-              </label>
+                      newQuestions[currentPage]!.answer = e.target.value;
+                      console.log(newQuestions);
+                      setSurveyQuestions((prevQuestions) => newQuestions);
+                    }}
+                    className="checkbox checkbox-xs mb-1"
+                  />
 
-              <label className="label flex cursor-pointer flex-col items-center">
-                <input
-                  type="checkbox"
-                  value="false"
-                  checked={
-                    surveyQuestions[currentPage]?.answer === "false"
-                      ? true
-                      : false
-                  }
-                  onChange={(e) => {
-                    const newQuestions = [...surveyQuestions!];
+                  <span className="label-text text-xs font-bold uppercase">
+                    True
+                  </span>
+                </label>
 
-                    newQuestions[currentPage]!.answer = e.target.value;
-                    setSurveyQuestions((prevQuestions) => newQuestions);
-                  }}
-                  className="checkbox checkbox-xs mb-1"
-                />
+                <label className="label flex cursor-pointer flex-col items-center">
+                  <input
+                    type="checkbox"
+                    value="false"
+                    checked={
+                      surveyQuestions[currentPage]?.answer === "false"
+                        ? true
+                        : false
+                    }
+                    onChange={(e) => {
+                      const newQuestions = [...surveyQuestions!];
 
-                <span className="label-text text-xs font-bold uppercase">
-                  False
-                </span>
-              </label>
-            </>
-          ) : (
-            <></>
-          )}
-        </div>
+                      newQuestions[currentPage]!.answer = e.target.value;
+                      setSurveyQuestions((prevQuestions) => newQuestions);
+                    }}
+                    className="checkbox checkbox-xs mb-1"
+                  />
 
-        <div className="mt-2 flex w-full justify-around p-4">
-          <button
-            className="btn btn-md bg-opacity-50 pl-5 pr-6 text-base"
-            onClick={() =>
-              currentPage !== 0 ? setCurrentPage(currentPage - 1) : null
-            }
-          >
-            « Prev
-          </button>
-          {surveyQuestions && currentPage === surveyQuestions!.length - 1 ? (
+                  <span className="label-text text-xs font-bold uppercase">
+                    False
+                  </span>
+                </label>
+              </>
+            ) : (
+              <></>
+            )}
+          </div>
+
+          <div className="mt-2 flex w-full justify-around p-4">
             <button
-              className="pr- btn btn-accent  btn-md bg-opacity-50 pl-6 pr-5 text-base"
-              disabled={surveyQuestions[currentPage]!.answer ? false : true}
-              onClick={() => handleSubmitAnswers()}
-            >
-              Finish »
-            </button>
-          ) : (
-            <button
-              className="pr- btn btn-accent  btn-md bg-opacity-50 pl-6 pr-5 text-base"
-              disabled={surveyQuestions[currentPage]!.answer ? false : true}
+              className="btn btn-md bg-opacity-50 pl-5 pr-6 text-base"
               onClick={() =>
-                surveyQuestions &&
-                currentPage! < surveyQuestions!.length - 1 &&
-                setCurrentPage(currentPage + 1)
+                currentPage !== 0 ? setCurrentPage(currentPage - 1) : null
               }
             >
-              Next »
+              « Prev
             </button>
-          )}
+            {surveyQuestions && currentPage === surveyQuestions!.length - 1 ? (
+              <button
+                className="pr- btn btn-accent  btn-md bg-opacity-50 pl-6 pr-5 text-base"
+                disabled={surveyQuestions[currentPage]!.answer ? false : true}
+                onClick={() => {
+                  handleSubmitAnswers();
+                  setCurrentPage(currentPage + 1);
+                }}
+              >
+                Finish »
+              </button>
+            ) : (
+              <button
+                className="pr- btn btn-accent  btn-md bg-opacity-50 pl-6 pr-5 text-base"
+                disabled={surveyQuestions[currentPage]!.answer ? false : true}
+                onClick={() =>
+                  surveyQuestions &&
+                  currentPage! < surveyQuestions!.length - 1 &&
+                  setCurrentPage(currentPage + 1)
+                }
+              >
+                Next »
+              </button>
+            )}
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  else if (currentPage === currentSurvey.questions.length)
+    return (
+      <SurveyCompleted
+        surveyId={currentSurvey && (currentSurvey.id as string)}
+      />
+    );
 }
