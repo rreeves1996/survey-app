@@ -5,7 +5,7 @@ import { api } from "~/utils/api";
 import { Survey } from "@prisma/client";
 import { BiSolidEdit } from "react-icons/bi";
 import { useRouter } from "next/router";
-import { FaStop } from "react-icons/fa";
+import { FaStop, FaEye } from "react-icons/fa";
 import { BsFillPlayFill } from "react-icons/bs";
 
 export default function Home() {
@@ -58,73 +58,61 @@ const Content: React.FC = () => {
     },
   });
 
-  return (
-    <>
-      <h1 className="text-center text-6xl font-extralight uppercase tracking-widest text-slate-100">
-        Home
-      </h1>
+  if (sessionData)
+    return (
+      <>
+        <h1 className="text-center text-6xl font-extralight uppercase tracking-widest text-slate-100">
+          Home
+        </h1>
 
-      <div className="divider" />
+        <div className="divider" />
 
-      <div className="flex flex-col">
-        {surveys?.map((survey) => (
-          <div className="flex">
-            <div
-              className={`collapse mb-2 rounded-md bg-base-200 py-0 transition-all hover:bg-opacity-100 ${
-                selectedSurvey && selectedSurvey.id === survey.id
-                  ? "bg-opacity-75"
-                  : "bg-opacity-50"
-              }`}
-              onClick={() => setSelectedSurvey(survey)}
-            >
-              <input
-                type="radio"
-                name="my-accordion-1"
-                className="min-h-8 cursor-pointer"
-                checked={
+        <div className="flex flex-col">
+          {surveys?.map((survey) => (
+            <div className="flex">
+              <div
+                className={`collapse mb-2 rounded-md bg-base-200 py-0 transition-all hover:bg-opacity-100 ${
                   selectedSurvey && selectedSurvey.id === survey.id
-                    ? true
-                    : false
-                }
-              />
-              <div className="collapse-title min-h-6 flex  w-full justify-between pb-0 pl-3 pr-1 pt-1 text-sm font-medium">
-                <span>{survey.name}</span>
-                {survey.active ? (
-                  <div className="font-sm badge badge-accent badge-outline h-5 text-xs">
-                    active
-                  </div>
-                ) : null}
-              </div>
+                    ? "bg-opacity-75"
+                    : "bg-opacity-50"
+                }`}
+                onClick={() => setSelectedSurvey(survey)}
+              >
+                <input
+                  type="radio"
+                  name="my-accordion-1"
+                  className="min-h-8 cursor-pointer"
+                  checked={
+                    selectedSurvey && selectedSurvey.id === survey.id
+                      ? true
+                      : false
+                  }
+                />
+                <div className="collapse-title min-h-6 flex  w-full items-center justify-between px-2 py-0 text-sm font-medium">
+                  <span>{survey.name}</span>
+                  {survey.active ? (
+                    <div className="font-sm badge badge-accent badge-outline h-5 text-xs">
+                      active
+                    </div>
+                  ) : null}
+                </div>
 
-              <div className="collapse-content my-0 flex justify-between px-2">
-                <button
-                  onClick={() => router.push(`/survey/${survey.id}`)}
-                  className="btn btn-ghost btn-xs"
-                >
-                  edit
-                </button>
-
-                <div className="flex">
-                  <div
-                    className={`${
-                      survey && !survey.active ? "tooltip tooltip-bottom" : ""
-                    }`}
-                    data-tip="start survey"
+                <div className="collapse-content my-0 flex justify-between px-2">
+                  <button
+                    onClick={() => router.push(`/survey/${survey.id}`)}
+                    className="btn btn-ghost btn-xs"
                   >
+                    view results
+                  </button>
+
+                  <div className="flex">
                     <button
                       className="min-w-6 text-md btn btn-square btn-accent min-h-6  h-6 w-6 bg-opacity-50 "
                       disabled={survey && survey.active}
                     >
                       <BsFillPlayFill />
                     </button>
-                  </div>
 
-                  <div
-                    className={`${
-                      survey && survey.active ? "tooltip tooltip-bottom" : ""
-                    }`}
-                    data-tip="stop survey"
-                  >
                     <button
                       disabled={survey && !survey.active}
                       className={`min-w-6 btn btn-square btn-error min-h-6 ml-1 h-6 w-6 bg-opacity-50 text-xs text-slate-50`}
@@ -134,41 +122,44 @@ const Content: React.FC = () => {
                   </div>
                 </div>
               </div>
-            </div>
 
-            <div className="tooltip tooltip-bottom" data-tip="edit survey">
-              <button className="min-w-8 btn btn-square min-h-8 ml-2 h-8 w-8 bg-opacity-50">
-                <BiSolidEdit />
-              </button>
-            </div>
-
-            <div className="tooltip tooltip-bottom" data-tip="delete survey">
-              <button className="min-w-8 btn btn-square min-h-8 ml-2 h-8 w-8 bg-opacity-50">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
+              <div className="tooltip tooltip-bottom" data-tip="edit survey">
+                <button
+                  onClick={() => router.push(`/survey/${survey.id}`)}
+                  className="min-w-8 btn btn-square min-h-8 ml-2 h-8 w-8 bg-opacity-50"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
+                  <BiSolidEdit />
+                </button>
+              </div>
 
-      <Link href="/createsurvey">
-        <button className="btn btn-accent btn-block bg-opacity-50 hover:bg-accent">
-          Create New
-        </button>
-      </Link>
-    </>
-  );
+              <div className="tooltip tooltip-bottom" data-tip="delete survey">
+                <button className="min-w-8 btn btn-square min-h-8 ml-2 h-8 w-8 bg-opacity-50">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-4 w-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <Link href="/createsurvey">
+          <button className="btn btn-accent btn-block bg-opacity-50 hover:bg-accent">
+            Create New
+          </button>
+        </Link>
+      </>
+    );
+  else return <span className="loading loading-spinner w-24" />;
 };

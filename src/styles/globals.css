@@ -1,6 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Overwrite Daisy UI collapse */
 .collapse[open] :where(.collapse-content),
 .collapse-open :where(.collapse-content),
 .collapse:focus:not(.collapse-close) :where(.collapse-content),

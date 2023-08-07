@@ -28,7 +28,7 @@ export default function Page() {
     if (survey?.userId === sessionData?.user.id)
       return <AdminPanel survey={survey} refetchSurvey={refetchSurvey} />;
     else return <UserSurvey survey={survey} />;
-  } else return <h1>Loading</h1>;
+  } else return <span className="loading loading-spinner w-24" />;
 }
 
 function AdminPanel({
@@ -230,7 +230,7 @@ function AdminPanel({
             .slice(currentPage * 5, 5 + currentPage * 5)
             .map((question) => (
               <div className="flex" key={v4()}>
-                <div className="collapse-arrow collapse rounded-md bg-base-200 bg-opacity-50 transition-all hover:bg-opacity-100">
+                <div className="collapse collapse-arrow rounded-md bg-base-200 bg-opacity-50 transition-all hover:bg-opacity-100">
                   <input type="checkbox" className="min-h-8" />
                   <div className="collapse-title min-h-8 flex w-full justify-between pb-0 pl-3 pt-1 text-sm font-medium">
                     <p>
