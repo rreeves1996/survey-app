@@ -5,7 +5,7 @@ import {
   publicProcedure,
 } from "~/server/api/trpc";
 
-export const questionRouter = createTRPCRouter({
+export const answerRouter = createTRPCRouter({
   getAll: publicProcedure
     .input(z.object({ questionId: z.string() }))
     .query(async ({ ctx, input }) => {
@@ -16,7 +16,7 @@ export const questionRouter = createTRPCRouter({
       });
     }),
 
-  create: protectedProcedure
+  create: publicProcedure
     .input(
       z.object({
         answer: z.string(),

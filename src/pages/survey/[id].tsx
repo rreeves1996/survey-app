@@ -14,7 +14,6 @@ export default function Page() {
   const router = useRouter();
   const { data: sessionData } = useSession();
 
-  const surveyId = router.query.id;
   const { data: survey, refetch: refetchSurvey } = api.survey.getOne.useQuery(
     {
       surveyId: router.query.id! as string,
@@ -27,7 +26,7 @@ export default function Page() {
   if (survey) {
     if (survey?.userId === sessionData?.user.id)
       return <AdminPanel survey={survey} refetchSurvey={refetchSurvey} />;
-    else return <UserSurvey survey={survey} />;
+    else return <UserSurvey survey={survey} refetchSurvey={refetchSurvey} />;
   } else return <span className="loading loading-spinner w-24" />;
 }
 
@@ -345,7 +344,15 @@ function AdminPanel({
 
 type SurveyQuestion = Partial<Question> & { answer?: string };
 
-function UserSurvey({ survey }: { survey: SurveyWithQuestions }) {
+function UserSurvey({
+  survey,
+  refetchSurvey,
+}: {
+  survey: SurveyWithQuestions;
+  refetchSurvey: () => void;
+}) {
+  const router = useRouter();
+
   const [currentSurvey, setCurrentSurvey] =
     useState<SurveyWithQuestions>(survey);
   const [surveyQuestions, setSurveyQuestions] = useState<SurveyQuestion[]>([
@@ -353,6 +360,20 @@ function UserSurvey({ survey }: { survey: SurveyWithQuestions }) {
   ]);
   const [currentPage, setCurrentPage] = useState<number>(0);
 
+  const createAnswer = api.answer.create.useMutation({
+    onSuccess: (data) => console.log(data),
+  });
+
+  const handleSubmitAnswers = () => {
+    surveyQuestions.map((question) =>
+      createAnswer.mutate({
+        questionId: question.id as string,
+        answer: question.answer as string,
+      })
+    );
+
+    router.push("/");
+  };
   return (
     <div className="card mt-2 h-fit w-full shadow-xl lg:w-96">
       <div className="card-body rounded-md bg-slate-800 pb-4">
@@ -436,20 +457,27 @@ function UserSurvey({ survey }: { survey: SurveyWithQuestions }) {
           >
             « Prev
           </button>
-
-          <button
-            className="pr- btn btn-accent  btn-md bg-opacity-50 pl-6 pr-5 text-base"
-            disabled={surveyQuestions[currentPage]!.answer ? false : true}
-            onClick={() =>
-              surveyQuestions &&
-              currentPage! < surveyQuestions!.length - 1 &&
-              setCurrentPage(currentPage + 1)
-            }
-          >
-            {surveyQuestions && currentPage === surveyQuestions!.length - 1
-              ? "Finish »"
-              : "Next »"}
-          </button>
+          {surveyQuestions && currentPage === surveyQuestions!.length - 1 ? (
+            <button
+              className="pr- btn btn-accent  btn-md bg-opacity-50 pl-6 pr-5 text-base"
+              disabled={surveyQuestions[currentPage]!.answer ? false : true}
+              onClick={() => handleSubmitAnswers()}
+            >
+              Finish »
+            </button>
+          ) : (
+            <button
+              className="pr- btn btn-accent  btn-md bg-opacity-50 pl-6 pr-5 text-base"
+              disabled={surveyQuestions[currentPage]!.answer ? false : true}
+              onClick={() =>
+                surveyQuestions &&
+                currentPage! < surveyQuestions!.length - 1 &&
+                setCurrentPage(currentPage + 1)
+              }
+            >
+              Next »
+            </button>
+          )}
         </div>
       </div>
     </div>
