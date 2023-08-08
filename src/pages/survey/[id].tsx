@@ -236,7 +236,7 @@ function AdminPanel({
             .slice(currentPage * 5, 5 + currentPage * 5)
             .map((question) => (
               <div className="flex" key={v4()}>
-                <div className="collapse-arrow collapse rounded-md bg-base-200 bg-opacity-50 transition-all hover:bg-opacity-100">
+                <div className="collapse collapse-arrow rounded-md bg-base-200 bg-opacity-50 transition-all hover:bg-opacity-100">
                   <input type="checkbox" className="min-h-8" />
                   <div className="collapse-title min-h-8 flex w-full justify-between pb-0 pl-3 pt-1 text-sm font-medium">
                     <p>
@@ -414,7 +414,6 @@ function UserSurvey({
                       const newQuestions = [...surveyQuestions!];
 
                       newQuestions[currentPage]!.answer = e.target.value;
-                      console.log(newQuestions);
                       setSurveyQuestions((prevQuestions) => newQuestions);
                     }}
                     className="checkbox checkbox-xs mb-1"
@@ -449,7 +448,131 @@ function UserSurvey({
                 </label>
               </>
             ) : (
-              <></>
+              <>
+                <label className="label flex cursor-pointer flex-col items-center justify-start">
+                  <input
+                    type="checkbox"
+                    value="1"
+                    checked={
+                      surveyQuestions[currentPage]?.answer === "1"
+                        ? true
+                        : false
+                    }
+                    onChange={(e) => {
+                      const newQuestions = [...surveyQuestions!];
+
+                      newQuestions[currentPage]!.answer = e.target.value;
+                      console.log(newQuestions);
+                      setSurveyQuestions((prevQuestions) => newQuestions);
+                    }}
+                    className="checkbox checkbox-xs mb-1"
+                  />
+
+                  <span className="label-text text-xs font-bold uppercase">
+                    1
+                  </span>
+
+                  <span className="label-text absolute translate-y-10 text-xs font-bold uppercase">
+                    (Never)
+                  </span>
+                </label>
+
+                <label className="label flex cursor-pointer flex-col items-center justify-start">
+                  <input
+                    type="checkbox"
+                    value="2"
+                    checked={
+                      surveyQuestions[currentPage]?.answer === "2"
+                        ? true
+                        : false
+                    }
+                    onChange={(e) => {
+                      const newQuestions = [...surveyQuestions!];
+
+                      newQuestions[currentPage]!.answer = e.target.value;
+                      setSurveyQuestions((prevQuestions) => newQuestions);
+                    }}
+                    className="checkbox checkbox-xs mb-1"
+                  />
+
+                  <span className="label-text text-xs font-bold uppercase">
+                    2
+                  </span>
+                </label>
+
+                <label className="label flex cursor-pointer flex-col items-center justify-start">
+                  <input
+                    type="checkbox"
+                    value="3"
+                    checked={
+                      surveyQuestions[currentPage]?.answer === "3"
+                        ? true
+                        : false
+                    }
+                    onChange={(e) => {
+                      const newQuestions = [...surveyQuestions!];
+
+                      newQuestions[currentPage]!.answer = e.target.value;
+                      setSurveyQuestions((prevQuestions) => newQuestions);
+                    }}
+                    className="checkbox checkbox-xs mb-1"
+                  />
+
+                  <span className="label-text text-xs font-bold uppercase">
+                    3
+                  </span>
+                </label>
+
+                <label className="label flex cursor-pointer flex-col items-center  justify-start">
+                  <input
+                    type="checkbox"
+                    value="4"
+                    checked={
+                      surveyQuestions[currentPage]?.answer === "4"
+                        ? true
+                        : false
+                    }
+                    onChange={(e) => {
+                      const newQuestions = [...surveyQuestions!];
+
+                      newQuestions[currentPage]!.answer = e.target.value;
+                      setSurveyQuestions((prevQuestions) => newQuestions);
+                    }}
+                    className="checkbox checkbox-xs mb-1"
+                  />
+
+                  <span className="label-text text-xs font-bold uppercase">
+                    4
+                  </span>
+                </label>
+
+                <label className="label flex cursor-pointer flex-col items-center justify-start">
+                  <input
+                    type="checkbox"
+                    value="5"
+                    checked={
+                      surveyQuestions[currentPage]?.answer === "5"
+                        ? true
+                        : false
+                    }
+                    onChange={(e) => {
+                      const newQuestions = [...surveyQuestions!];
+
+                      newQuestions[currentPage]!.answer = e.target.value;
+                      setSurveyQuestions((prevQuestions) => newQuestions);
+                    }}
+                    className="checkbox checkbox-xs mb-1"
+                  />
+
+                  <span className="label-text text-xs font-bold uppercase">
+                    5
+                  </span>
+
+                  <span className="label-text absolute translate-y-10 text-xs font-bold uppercase">
+                    (Always)
+                  </span>
+                </label>
+              </>
             )}
           </div>
 

@@ -19,6 +19,18 @@ export default function Page() {
     }
   );
 
+  const handleFormatPercentage = (num: number) => {
+    const numAsPct = num * 100;
+
+    if (numAsPct > 50) {
+      if (Math.ceil(numAsPct) !== 100) return Math.ceil(numAsPct);
+      else return Math.floor(numAsPct);
+    } else {
+      if (Math.floor(numAsPct) !== 100) return Math.floor(numAsPct);
+      else return Math.ceil(numAsPct);
+    }
+  };
+
   if (survey) {
     return (
       <div className="card mt-2 h-fit w-full shadow-xl lg:w-96">
@@ -51,11 +63,11 @@ export default function Page() {
                         <p className="mr-1 font-medium uppercase">T: </p>
 
                         <p className="">
-                          {(question.answers.filter(
-                            (answer) => answer.answer === "true"
-                          ).length /
-                            question.answers.length) *
-                            100}
+                          {handleFormatPercentage(
+                            question.answers.filter(
+                              (answer) => answer.answer === "true"
+                            ).length / question.answers.length
+                          )}
                           %
                         </p>
                       </div>
@@ -63,78 +75,78 @@ export default function Page() {
                         <p className="mr-1 font-medium uppercase">F: </p>
 
                         <p>
-                          {(question.answers.filter(
-                            (answer) => answer.answer === "false"
-                          ).length /
-                            question.answers.length) *
-                            100}
+                          {handleFormatPercentage(
+                            question.answers.filter(
+                              (answer) => answer.answer === "false"
+                            ).length / question.answers.length
+                          )}
                           %
                         </p>
                       </div>
                     </div>
                   ) : (
                     <div className="mb-2 flex justify-around">
-                      <div className="flex">
-                        <p className="mr-1 font-medium uppercase">1: </p>
+                      <div className="flex flex-col text-center">
+                        <p className="font-medium">1: </p>
 
                         <p className="">
-                          {(question.answers.filter(
-                            (answer) => answer.answer === "true"
-                          ).length /
-                            question.answers.length) *
-                            100}
+                          {handleFormatPercentage(
+                            question.answers.filter(
+                              (answer) => answer.answer === "1"
+                            ).length / question.answers.length
+                          )}
                           %
                         </p>
                       </div>
 
-                      <div className="flex">
-                        <p className="mr-1 font-medium uppercase">2: </p>
+                      <div className="flex flex-col text-center">
+                        <p className="font-medium">2: </p>
 
                         <p>
-                          {(question.answers.filter(
-                            (answer) => answer.answer === "false"
-                          ).length /
-                            question.answers.length) *
-                            100}
+                          {handleFormatPercentage(
+                            question.answers.filter(
+                              (answer) => answer.answer === "2"
+                            ).length / question.answers.length
+                          )}
                           %
                         </p>
                       </div>
 
-                      <div className="flex">
-                        <p className="mr-1 font-medium uppercase">3: </p>
+                      <div className="flex flex-col text-center">
+                        <p className="font-medium">3: </p>
 
                         <p>
-                          {(question.answers.filter(
-                            (answer) => answer.answer === "false"
-                          ).length /
-                            question.answers.length) *
-                            100}
+                          {handleFormatPercentage(
+                            question.answers.filter(
+                              (answer) => answer.answer === "3"
+                            ).length / question.answers.length
+                          )}
                           %
                         </p>
                       </div>
 
-                      <div className="flex">
-                        <p className="mr-1 font-medium uppercase">4: </p>
+                      <div className="flex flex-col text-center">
+                        <p className="font-medium">4: </p>
 
                         <p>
-                          {(question.answers.filter(
-                            (answer) => answer.answer === "false"
-                          ).length /
-                            question.answers.length) *
-                            100}
+                          {handleFormatPercentage(
+                            question.answers.filter(
+                              (answer) => answer.answer === "4"
+                            ).length / question.answers.length
+                          )}
                           %
                         </p>
                       </div>
 
-                      <div className="flex">
-                        <p className="mr-1 font-medium uppercase">5: </p>
+                      <div className="flex flex-col text-center">
+                        <p className="font-medium">5: </p>
 
                         <p>
-                          {(question.answers.filter(
-                            (answer) => answer.answer === "false"
-                          ).length /
-                            question.answers.length) *
-                            100}
+                          {handleFormatPercentage(
+                            question.answers.filter(
+                              (answer) => answer.answer === "5"
+                            ).length / question.answers.length
+                          )}
                           %
                         </p>
                       </div>
