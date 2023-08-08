@@ -25,7 +25,11 @@ export const surveyRouter = createTRPCRouter({
           id: input.surveyId,
         },
         include: {
-          questions: true,
+          questions: {
+            include: {
+              answers: true,
+            },
+          },
         },
       });
     }),

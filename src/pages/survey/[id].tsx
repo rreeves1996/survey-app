@@ -12,6 +12,7 @@ import SurveyCompleted from "~/components/SurveyCompleted";
 import SurveyInactive from "~/components/SurveyInactive";
 
 type SurveyWithQuestions = Partial<Survey> & { questions: Question[] };
+
 export default function Page() {
   const router = useRouter();
   const { data: sessionData } = useSession();
@@ -346,7 +347,7 @@ function AdminPanel({
   );
 }
 
-type SurveyQuestion = Partial<Question> & { answer?: string };
+type QuestionWithAnswers = Partial<Question> & { answer?: string };
 
 function UserSurvey({
   survey,
@@ -359,9 +360,9 @@ function UserSurvey({
 
   const [currentSurvey, setCurrentSurvey] =
     useState<SurveyWithQuestions>(survey);
-  const [surveyQuestions, setSurveyQuestions] = useState<SurveyQuestion[]>([
-    ...survey.questions,
-  ]);
+  const [surveyQuestions, setSurveyQuestions] = useState<QuestionWithAnswers[]>(
+    [...survey.questions]
+  );
   const [currentPage, setCurrentPage] = useState<number>(0);
 
   const createAnswer = api.answer.create.useMutation({
