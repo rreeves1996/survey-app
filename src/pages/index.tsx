@@ -23,7 +23,7 @@ export default function Home() {
 
         <div className="flex flex-col items-center gap-2">
           <button
-            className="btn btn-secondary min-h-16 rounded-xl bg-opacity-40 px-10 text-lg hover:bg-opacity-100"
+            className="btn btn-accent min-h-16 rounded-xl bg-opacity-40 px-10 text-lg hover:bg-opacity-100"
             onClick={() => void signIn()}
           >
             Sign in

@@ -17,7 +17,7 @@ export const Navbar = () => {
       </button>
 
       <div>
-        <ul className="flex items-center gap-3">
+        <ul className="flex items-center">
           <Link href="/">
             <li className="btn btn-ghost btn-sm">Home</li>
           </Link>
@@ -51,19 +51,26 @@ export const Navbar = () => {
             </div>
           ) : (
             <>
-              <div className="dropdown-end dropdown-bottom dropdown">
-                <label tabIndex={0} className="avatar btn btn-circle btn-ghost">
+              <details className="dropdown-end dropdown-bottom dropdown mx-1">
+                <summary className="avatar btn btn-circle btn-ghost">
                   <FaUserCircle className="text-4xl" />
+                </summary>
 
-                  <ul className="slate-600 menu dropdown-content z-[1] bg-slate-800 outline">
-                    <Link href="/register">
-                      <li>Register</li>
-                    </Link>
+                <ul className="slate-600 menu dropdown-content z-[1] translate-y-2 rounded-sm bg-slate-800 outline outline-1 outline-slate-600">
+                  <Link href="/register">
+                    <li className="btn btn-ghost btn-sm rounded-sm px-2">
+                      Register
+                    </li>
+                  </Link>
 
-                    <li onClick={() => void signIn()}>Login</li>
-                  </ul>
-                </label>
-              </div>
+                  <li
+                    className="btn btn-ghost btn-sm rounded-sm px-2"
+                    onClick={() => void signIn()}
+                  >
+                    Login
+                  </li>
+                </ul>
+              </details>
             </>
           )}
         </ul>
