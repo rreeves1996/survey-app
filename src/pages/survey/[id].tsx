@@ -67,12 +67,12 @@ function AdminPanel({
     { surveyId: survey.id as string },
     {
       enabled: sessionData?.user !== undefined,
-      onSuccess: (data) => null,
+      onSuccess: () => null,
     }
   );
 
   const createQuestion = api.question.create.useMutation({
-    onSuccess: () => {},
+    onSuccess: () => null,
   });
 
   const updateQuestion = api.question.update.useMutation({
@@ -106,6 +106,7 @@ function AdminPanel({
         })
       );
 
+      // Update survey name and active boolean
       refetchSurvey();
       refetchQuestions();
     },
@@ -140,7 +141,7 @@ function AdminPanel({
     } else {
       setAllQuestions((prevState) => []);
     }
-  }, [newQuestions, oldQuestions]);
+  }, [newQuestions, oldQuestions, isActive]);
 
   return (
     <div className="card mt-2 h-fit w-full shadow-xl lg:w-96">
@@ -193,12 +194,12 @@ function AdminPanel({
               </span>
             </p>
 
-            <p className="ml-2 text-xs">
+            {/* <p className="ml-2 text-xs">
               - active until <strong>date</strong>
-            </p>
+            </p> */}
           </div>
 
-          <div className=" flex justify-around">
+          <div className="flex justify-around">
             <div
               className={`${
                 survey && !survey.active ? "tooltip tooltip-bottom" : ""
@@ -207,8 +208,8 @@ function AdminPanel({
             >
               <button
                 className="min-w-8 btn btn-square btn-accent min-h-8  h-8 w-8 bg-opacity-50"
-                disabled={survey && survey.active}
-                onClick={() => setIsActive(true)}
+                disabled={isActive}
+                onClick={() => setIsActive(!isActive)}
               >
                 <BsFillPlayFill />
               </button>
@@ -221,9 +222,9 @@ function AdminPanel({
               data-tip="stop survey"
             >
               <button
-                disabled={survey && !survey.active}
+                disabled={!isActive}
                 className={`min-w-8 btn btn-square btn-error min-h-8 ml-2 h-8 w-8 bg-opacity-50 text-slate-50`}
-                onClick={() => setIsActive(true)}
+                onClick={() => setIsActive(!isActive)}
               >
                 <FaStop />
               </button>
@@ -236,7 +237,7 @@ function AdminPanel({
             .slice(currentPage * 5, 5 + currentPage * 5)
             .map((question) => (
               <div className="flex" key={v4()}>
-                <div className="collapse collapse-arrow rounded-md bg-base-200 bg-opacity-50 transition-all hover:bg-opacity-100">
+                <div className="collapse-arrow collapse rounded-md bg-base-200 bg-opacity-50 transition-all hover:bg-opacity-100">
                   <input type="checkbox" className="min-h-8" />
                   <div className="collapse-title min-h-8 flex w-full justify-between pb-0 pl-3 pt-1 text-sm font-medium">
                     <p>

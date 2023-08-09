@@ -18,13 +18,18 @@ export default function Home() {
           survey
           <span className="font-medium  text-[hsl(214,100%,79%)]">Friend</span>
         </h1>
+
+        <div className="divider mx-auto my-0 w-56" />
+
         <div className="flex flex-col items-center gap-2">
           <button
-            className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
+            className="btn btn-secondary min-h-16 rounded-xl bg-opacity-40 px-10 text-lg hover:bg-opacity-100"
             onClick={() => void signIn()}
           >
             Sign in
           </button>
+
+          <button className="btn btn-ghost btn-sm mt-2">Create Account</button>
         </div>
       </div>
     );
