@@ -12,7 +12,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 
 import { env } from "~/env.mjs";
 import { prisma } from "~/server/db";
-import { User } from "@prisma/client";
+import { compare } from "bcrypt";
 declare module "next-auth" {
   interface Session extends DefaultSession {
     user: DefaultSession["user"] & {
@@ -40,33 +40,46 @@ export const authOptions: NextAuthOptions = {
   },
   adapter: PrismaAdapter(prisma),
   providers: [
-    // CredentialsProvider({
-    //   name: "Credentials",
-    //   credentials: {
-    //     username: { label: "Username", type: "text", placeholder: "jsmith" },
-    //     password: { label: "Password", type: "password" },
-    //   },
-    //   async authorize(credentials, req) {
-    //     const res = await fetch("http://localhost:3000/auth/login", {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //       body: JSON.stringify({
-    //         username: credentials?.username,
-    //         password: credentials?.password,
-    //       }),
-    //     });
+    CredentialsProvider({
+      name: "Credentials",
+      credentials: {
+        email: {
+          label: "Email",
+          type: "email",
+          placeholder: "jsmith@email.com",
+        },
+        name: {
+          label: "Name",
+          type: "email",
+          placeholder: "John Smith",
+        },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials, req) {
+        if (!credentials?.email || !credentials.password) return null;
 
-    //     const user: User = (await res.json()) as User;
+        const user = await prisma.user.findUnique({
+          where: {
+            email: credentials.email,
+          },
+        });
 
-    //     if (user) {
-    //       return user;
-    //     } else {
-    //       return null;
-    //     }
-    //   },
-    // }),
+        if (!user) return null;
+
+        const isPasswordValid = await compare(
+          credentials.password,
+          user.password as string
+        );
+
+        if (!isPasswordValid) return null;
+
+        return {
+          id: user.id as string,
+          email: user.email,
+          name: user.name,
+        };
+      },
+    }),
     DiscordProvider({
       clientId: env.DISCORD_CLIENT_ID,
       clientSecret: env.DISCORD_CLIENT_SECRET,

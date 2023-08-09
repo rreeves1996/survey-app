@@ -53,6 +53,7 @@ model User {
     email         String?   @unique
     emailVerified DateTime?
     image         String?
+    password      String?
     accounts      Account[]
     sessions      Session[]
     surveys       Survey[]
@@ -91,7 +92,6 @@ model Question {
 model Answer {
     id         String   @id @default(cuid())
     createdAt  DateTime @default(now())
-    updatedAt  DateTime @updatedAt
     answer     String
     question   Question @relation(fields: [questionId], references: [id])
     questionId String
