@@ -1,6 +1,7 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { FaUserCircle } from "react-icons/fa";
 
 export const Navbar = () => {
   const { data: sessionData } = useSession();
@@ -16,53 +17,56 @@ export const Navbar = () => {
       </button>
 
       <div>
-        <ul>
+        <ul className="flex items-center gap-3">
+          <Link href="/">
+            <li className="btn btn-ghost btn-sm">Home</li>
+          </Link>
           <Link href="/about">
             <li className="btn btn-ghost btn-sm">About</li>
           </Link>
 
-          <Link href="/contact">
-            <li className="btn btn-ghost btn-sm">Contact</li>
-          </Link>
-        </ul>
-        {sessionData ? (
-          <div
-            className="tooltip tooltip-left flex-none gap-2"
-            data-tip="sign out"
-          >
-            <div className="dropdown dropdown-end">
-              <label
-                tabIndex={0}
-                className="avatar btn btn-circle btn-ghost"
-                onClick={() => void signOut()}
-              >
-                {sessionData?.user?.image ? (
-                  <div className="w-10 rounded-full">
-                    <img
-                      src={sessionData?.user?.image ?? ""}
-                      alt={sessionData?.user?.name ?? ""}
-                    />
-                  </div>
-                ) : (
-                  sessionData?.user?.name
-                )}
-              </label>
-            </div>
-          </div>
-        ) : (
-          <>
-            <Link href="/register">
-              <li className="btn btn-ghost btn-sm">Register</li>
-            </Link>
-
-            <button
-              className="btn btn-ghost btn-sm"
-              onClick={() => void signIn()}
+          {sessionData ? (
+            <div
+              className="tooltip tooltip-left flex-none gap-2"
+              data-tip="sign out"
             >
-              Login
-            </button>
-          </>
-        )}
+              <div className="dropdown-end dropdown">
+                <label
+                  tabIndex={0}
+                  className="avatar btn btn-circle btn-ghost"
+                  onClick={() => void signOut()}
+                >
+                  {sessionData?.user?.image ? (
+                    <div className="w-10 rounded-full">
+                      <img
+                        src={sessionData?.user?.image ?? ""}
+                        alt={sessionData?.user?.name ?? ""}
+                      />
+                    </div>
+                  ) : (
+                    sessionData?.user?.name
+                  )}
+                </label>
+              </div>
+            </div>
+          ) : (
+            <>
+              <div className="dropdown-end dropdown-bottom dropdown">
+                <label tabIndex={0} className="avatar btn btn-circle btn-ghost">
+                  <FaUserCircle className="text-4xl" />
+
+                  <ul className="slate-600 menu dropdown-content z-[1] bg-slate-800 outline">
+                    <Link href="/register">
+                      <li>Register</li>
+                    </Link>
+
+                    <li onClick={() => void signIn()}>Login</li>
+                  </ul>
+                </label>
+              </div>
+            </>
+          )}
+        </ul>
       </div>
     </div>
   );
