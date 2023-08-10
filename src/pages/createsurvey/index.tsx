@@ -178,9 +178,11 @@ export default function index() {
           >
             «
           </button>
+          
           <button className="btn join-item  min-h-6 h-8">
             Page {currentPage + 1}
           </button>
+          
           <button
             className="btn join-item  min-h-6 h-8"
             onClick={() =>

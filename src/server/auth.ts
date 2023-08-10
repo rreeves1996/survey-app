@@ -13,6 +13,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { env } from "~/env.mjs";
 import { prisma } from "~/server/db";
 import { compare } from "bcrypt";
+import NextAuth from "next-auth/next";
 declare module "next-auth" {
   interface Session extends DefaultSession {
     user: DefaultSession["user"] & {
@@ -41,17 +42,13 @@ export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     CredentialsProvider({
+      id: "credentials",
       name: "Credentials",
       credentials: {
         email: {
           label: "Email",
           type: "email",
           placeholder: "jsmith@email.com",
-        },
-        name: {
-          label: "Name",
-          type: "email",
-          placeholder: "John Smith",
         },
         password: { label: "Password", type: "password" },
       },
@@ -93,10 +90,14 @@ export const authOptions: NextAuthOptions = {
       clientSecret: env.GOOGLE_CLIENT_SECRET ?? "",
     }),
   ],
-  // pages: {
-  //   signIn: "/auth/signin",
-  // },
+
+  pages: {
+    signIn: "/auth/login",
+  },
 };
+
+const handler = NextAuth(authOptions);
+export { handler as GET, handler as POST };
 
 export const getServerAuthSession = (ctx: {
   req: GetServerSidePropsContext["req"];

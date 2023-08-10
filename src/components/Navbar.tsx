@@ -65,7 +65,7 @@ export const Navbar = () => {
 
                   <li
                     className="btn btn-ghost btn-sm rounded-sm px-2"
-                    onClick={() => void signIn()}
+                    onClick={() => router.push("/auth/login")}
                   >
                     Login
                   </li>
