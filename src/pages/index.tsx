@@ -5,7 +5,7 @@ import { api } from "~/utils/api";
 import { Survey } from "@prisma/client";
 import { BiSolidEdit } from "react-icons/bi";
 import { useRouter } from "next/router";
-import { FaStop, FaEye } from "react-icons/fa";
+import { FaStop, FaGithub } from "react-icons/fa";
 import { BsFillPlayFill } from "react-icons/bs";
 
 export default function Home() {
@@ -29,7 +29,11 @@ export default function Home() {
             Sign in
           </button>
 
-          <button className="btn btn-ghost btn-sm mt-2">Create Account</button>
+          <Link href="https://github.com/rreeves1996/survey-app">
+            <button className="btn btn-ghost btn-sm mt-2">
+              <FaGithub className="text-lg" /> View Repo »
+            </button>
+          </Link>
         </div>
       </div>
     );

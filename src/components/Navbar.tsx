@@ -17,7 +17,7 @@ export const Navbar = () => {
       </button>
 
       <div>
-        <ul className="flex items-center">
+        <ul className="flex items-center gap-1">
           <Link href="/">
             <li className="btn btn-ghost btn-sm">Home</li>
           </Link>
@@ -30,7 +30,7 @@ export const Navbar = () => {
               className="tooltip tooltip-left flex-none gap-2"
               data-tip="sign out"
             >
-              <div className="dropdown dropdown-end">
+              <div className="dropdown-end dropdown">
                 <label
                   tabIndex={0}
                   className="avatar btn btn-circle btn-ghost"
@@ -51,7 +51,7 @@ export const Navbar = () => {
             </div>
           ) : (
             <>
-              <details className="dropdown dropdown-end dropdown-bottom mx-1">
+              <details className="dropdown-end dropdown-bottom dropdown mx-1">
                 <summary className="avatar btn btn-circle btn-ghost">
                   <FaUserCircle className="text-4xl" />
                 </summary>
