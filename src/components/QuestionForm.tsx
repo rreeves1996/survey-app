@@ -1,4 +1,5 @@
-import { Question } from "@prisma/client";
+"use client";
+
 import React, { useState } from "react";
 
 type QuestionFormProps = {

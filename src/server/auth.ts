@@ -39,10 +39,10 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   },
+
   adapter: PrismaAdapter(prisma),
   providers: [
     CredentialsProvider({
-      id: "credentials",
       name: "Credentials",
       credentials: {
         email: {
@@ -53,7 +53,7 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
-        if (!credentials?.email || !credentials.password) return null;
+        if (!credentials?.email || !credentials?.password) return null;
 
         const user = await prisma.user.findUnique({
           where: {
@@ -70,13 +70,11 @@ export const authOptions: NextAuthOptions = {
 
         if (!isPasswordValid) return null;
 
-        return {
-          id: user.id as string,
-          email: user.email,
-          name: user.name,
-        };
+        console.log(user);
+        return user;
       },
     }),
+
     DiscordProvider({
       clientId: env.DISCORD_CLIENT_ID,
       clientSecret: env.DISCORD_CLIENT_SECRET,

@@ -30,7 +30,7 @@ export const Navbar = () => {
               className="tooltip tooltip-left flex-none gap-2"
               data-tip="sign out"
             >
-              <div className="dropdown-end dropdown">
+              <div className="dropdown dropdown-end">
                 <label
                   tabIndex={0}
                   className="avatar btn btn-circle btn-ghost"
@@ -51,17 +51,17 @@ export const Navbar = () => {
             </div>
           ) : (
             <>
-              <details className="dropdown-end dropdown-bottom dropdown mx-1">
+              <details className="dropdown dropdown-end dropdown-bottom mx-1">
                 <summary className="avatar btn btn-circle btn-ghost">
                   <FaUserCircle className="text-4xl" />
                 </summary>
 
                 <ul className="slate-600 menu dropdown-content z-[1] translate-y-2 rounded-sm bg-slate-800 outline outline-1 outline-slate-600">
-                  <Link href="/register">
+                  {/* <Link href="/register">
                     <li className="btn btn-ghost btn-sm rounded-sm px-2">
                       Register
                     </li>
-                  </Link>
+                  </Link> */}
 
                   <li
                     className="btn btn-ghost btn-sm rounded-sm px-2"

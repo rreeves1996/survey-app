@@ -1,39 +1,46 @@
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
-import React, { FormEventHandler, useState } from "react";
+import React, { useState } from "react";
 
-type LoginForm = {
+type RegistrationForm = {
   email: string;
   password: string;
 };
 
-export default function Page() {
+export default function Register() {
   const router = useRouter();
-  const [formState, setFormState] = useState<LoginForm>({
-    email: "",
-    password: "",
-  });
+  const [formState, setFormState] = useState<RegistrationForm>();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const { name, value } = e.target;
+    if (formState) {
+      const { name, value } = e.target;
 
-    setFormState({
-      ...formState!,
-      [name]: value,
-    });
+      setFormState({
+        ...formState,
+        [name]: value,
+      });
+    }
   };
 
-  const loginUser: FormEventHandler<HTMLFormElement> = async (e) => {
+  const registerUser = async (e: React.SyntheticEvent) => {
     e.preventDefault();
 
-    console.log(formState);
-    const res = await signIn("credentials", {
-      email: formState?.email,
-      password: formState?.password,
-      redirect: false,
-    });
+    try {
+      const res = await fetch("/api/register", {
+        method: "POST",
+        body: JSON.stringify({
+          email: formState?.email,
+          password: formState?.password,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    } catch (err) {
+      console.error(err);
+    }
 
-    console.log(res);
+    console.log("Registration succeeded!");
   };
   return (
     <div className="card mt-2 h-fit w-full shadow-xl lg:w-96">
@@ -46,7 +53,7 @@ export default function Page() {
 
         <div className="divider my-0" />
 
-        <form onSubmit={(e) => loginUser(e)}>
+        <form onSubmit={registerUser}>
           <p className="my-1 px-4 text-center">
             Enter account info below to sign in:
           </p>
@@ -57,7 +64,7 @@ export default function Page() {
             </label>
 
             <input
-              type="text"
+              type="email"
               name="email"
               required={true}
               className="input input-bordered input-sm h-7 w-full pl-2"
