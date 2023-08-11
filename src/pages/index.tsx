@@ -7,6 +7,7 @@ import { BiSolidEdit } from "react-icons/bi";
 import { useRouter } from "next/router";
 import { FaStop, FaGithub } from "react-icons/fa";
 import { BsFillPlayFill } from "react-icons/bs";
+import { AiOutlineLink } from "react-icons/ai";
 
 export default function Home() {
   const { data: sessionData } = useSession();
@@ -72,7 +73,7 @@ const Content: React.FC = () => {
           <div className="flex flex-col">
             {surveys ? (
               surveys.map((survey) => (
-                <div className="flex">
+                <div className="flex gap-1">
                   <div
                     className={`collapse mb-2 rounded-md bg-base-200 py-0 transition-all hover:bg-opacity-100 ${
                       selectedSurvey && selectedSurvey.id === survey.id
@@ -92,7 +93,7 @@ const Content: React.FC = () => {
                       }
                     />
                     <div className="collapse-title min-h-6 flex  w-full items-center justify-between px-2 py-0 text-sm font-medium">
-                      <span>{survey.name}</span>
+                      <span className="text-ellipsis">{survey.name}</span>
                       {survey.active ? (
                         <div className="font-sm badge badge-accent badge-outline h-5 text-xs">
                           active
@@ -125,13 +126,26 @@ const Content: React.FC = () => {
                     </div>
                   </div>
 
+                  <div className="tooltip tooltip-bottom" data-tip="copy link">
+                    <button
+                      onClick={() => {
+                        navigator.clipboard.writeText(
+                          `https://survey-app-silk.vercel.app/survey/${survey.id}`
+                        );
+                      }}
+                      className="min-w-8 btn btn-square min-h-8  h-8 w-8 bg-opacity-50"
+                    >
+                      <AiOutlineLink className="" />
+                    </button>
+                  </div>
+
                   <div
                     className="tooltip tooltip-bottom"
                     data-tip="edit survey"
                   >
                     <button
                       onClick={() => router.push(`/survey/${survey.id}`)}
-                      className="min-w-8 btn btn-square min-h-8 ml-2 h-8 w-8 bg-opacity-50"
+                      className="min-w-8 btn btn-square min-h-8 h-8 w-8 bg-opacity-50"
                     >
                       <BiSolidEdit />
                     </button>
@@ -141,7 +155,7 @@ const Content: React.FC = () => {
                     className="tooltip tooltip-bottom"
                     data-tip="delete survey"
                   >
-                    <button className="min-w-8 btn btn-square min-h-8 ml-2 h-8 w-8 bg-opacity-50">
+                    <button className="min-w-8 btn btn-square min-h-8 h-8 w-8 bg-opacity-50">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="h-4 w-4"
