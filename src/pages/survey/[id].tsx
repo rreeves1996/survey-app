@@ -19,7 +19,7 @@ export default function Page() {
 
   const { data: survey, refetch: refetchSurvey } = api.survey.getOne.useQuery(
     {
-      surveyId: router.query.id! as string,
+      id: router.query.id! as string,
     },
     {
       onSuccess: () => null,
@@ -237,7 +237,7 @@ function AdminPanel({
             .slice(currentPage * 5, 5 + currentPage * 5)
             .map((question) => (
               <div className="flex" key={v4()}>
-                <div className="collapse-arrow collapse rounded-md bg-base-200 bg-opacity-50 transition-all hover:bg-opacity-100">
+                <div className="collapse collapse-arrow rounded-md bg-base-200 bg-opacity-50 transition-all hover:bg-opacity-100">
                   <input type="checkbox" className="min-h-8" />
                   <div className="collapse-title min-h-8 flex w-full justify-between pb-0 pl-3 pt-1 text-sm font-medium">
                     <p>
@@ -330,7 +330,7 @@ function AdminPanel({
               survey &&
                 updateSurvey.mutate({
                   name: surveyName,
-                  surveyId: survey.id as string,
+                  id: survey.id as string,
                   active: isActive,
                 });
               router.push("/survey/editsuccess");

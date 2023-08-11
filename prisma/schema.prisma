@@ -84,7 +84,7 @@ model Question {
     updatedAt    DateTime @updatedAt
     questionType String
     questionBody String   @db.Text
-    survey       Survey   @relation(fields: [surveyId], references: [id])
+    survey       Survey   @relation(fields: [surveyId], references: [id], onDelete: Cascade)
     surveyId     String
     answers      Answer[]
 }
@@ -93,6 +93,6 @@ model Answer {
     id         String   @id @default(cuid())
     createdAt  DateTime @default(now())
     answer     String
-    question   Question @relation(fields: [questionId], references: [id])
+    question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
     questionId String
 }

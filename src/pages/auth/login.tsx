@@ -23,36 +23,21 @@ export default function Login() {
         <div className="my-2 flex flex-col gap-2">
           <button
             className="hover: btn btn-accent btn-block mb-2 border-slate-700 bg-slate-900 bg-opacity-30 hover:border-slate-700 hover:bg-slate-700 hover:bg-opacity-100"
-            onClick={() =>
-              void signIn("github", {
-                redirect: false,
-                callbackUrl: "/",
-              })
-            }
+            onClick={() => void signIn("github")}
           >
             <AiFillGithub className="text-xl" /> Continue with GitHub
           </button>
 
           <button
             className="btn btn-primary btn-block mb-2 bg-opacity-30 hover:bg-opacity-100"
-            onClick={() =>
-              void signIn("discord", {
-                redirect: false,
-                callbackUrl: "/",
-              })
-            }
+            onClick={() => void signIn("discord")}
           >
             <FaDiscord className="text-xl" /> Continue with Discord
           </button>
 
           <button
             className="btn btn-block mb-2 border-slate-200 bg-blue-50 bg-opacity-30 text-white hover:bg-blue-50 hover:bg-opacity-100 hover:text-slate-900"
-            onClick={() =>
-              void signIn("google", {
-                redirect: false,
-                callbackUrl: "/",
-              })
-            }
+            onClick={() => void signIn("google")}
           >
             <FcGoogle className="text-xl" /> Continue with Google
           </button>

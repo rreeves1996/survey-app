@@ -5,7 +5,7 @@ import {
   type NextAuthOptions,
   type DefaultSession,
 } from "next-auth";
-import GitHubProvider from "next-auth/providers/github";
+import GithubProvider from "next-auth/providers/github";
 import DiscordProvider from "next-auth/providers/discord";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -39,63 +39,57 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   },
-
   adapter: PrismaAdapter(prisma),
   providers: [
-    CredentialsProvider({
-      name: "Credentials",
-      credentials: {
-        email: {
-          label: "Email",
-          type: "email",
-          placeholder: "jsmith@email.com",
-        },
-        password: { label: "Password", type: "password" },
-      },
-      async authorize(credentials, req) {
-        if (!credentials?.email || !credentials?.password) return null;
+    // CredentialsProvider({
+    //   name: "Credentials",
+    //   credentials: {
+    //     email: {
+    //       label: "Email",
+    //       type: "email",
+    //       placeholder: "jsmith@email.com",
+    //     },
+    //     password: { label: "Password", type: "password" },
+    //   },
+    //   async authorize(credentials, req) {
+    //     if (!credentials?.email || !credentials?.password) return null;
 
-        const user = await prisma.user.findUnique({
-          where: {
-            email: credentials.email,
-          },
-        });
+    //     const user = await prisma.user.findUnique({
+    //       where: {
+    //         email: credentials.email,
+    //       },
+    //     });
 
-        if (!user) return null;
+    //     if (!user) return null;
 
-        const isPasswordValid = await compare(
-          credentials.password,
-          user.password as string
-        );
+    //     const isPasswordValid = await compare(
+    //       credentials.password,
+    //       user.password as string
+    //     );
 
-        if (!isPasswordValid) return null;
+    //     if (!isPasswordValid) return null;
 
-        console.log(user);
-        return user;
-      },
-    }),
-
+    //     console.log(user);
+    //     return user;
+    //   },
+    // }),
     DiscordProvider({
-      clientId: env.DISCORD_CLIENT_ID,
-      clientSecret: env.DISCORD_CLIENT_SECRET,
+      clientId: env.DISCORD_CLIENT_ID as string,
+      clientSecret: env.DISCORD_CLIENT_SECRET as string,
     }),
-    GitHubProvider({
-      clientId: env.GITHUB_CLIENT_ID,
-      clientSecret: env.GITHUB_CLIENT_SECRET,
+    GithubProvider({
+      clientId: env.GITHUB_CLIENT_ID as string,
+      clientSecret: env.GITHUB_CLIENT_SECRET as string,
     }),
     GoogleProvider({
-      clientId: env.GOOGLE_CLIENT_ID ?? "",
-      clientSecret: env.GOOGLE_CLIENT_SECRET ?? "",
+      clientId: env.GOOGLE_CLIENT_ID as string,
+      clientSecret: env.GOOGLE_CLIENT_SECRET as string,
     }),
   ],
-
   pages: {
     signIn: "/auth/login",
   },
 };
-
-const handler = NextAuth(authOptions);
-export { handler as GET, handler as POST };
 
 export const getServerAuthSession = (ctx: {
   req: GetServerSidePropsContext["req"];

@@ -60,6 +60,22 @@ const Content: React.FC = () => {
     },
   });
 
+  const updateSurvey = api.survey.update.useMutation({
+    onSuccess: () => {
+      void refetchSurveys();
+    },
+  });
+
+  const handleSurveyActivity = (survey: Survey) => {
+    updateSurvey.mutate({
+      id: survey.id,
+      name: survey.name,
+      active: survey.active ? false : true,
+    });
+
+    refetchSurveys();
+  };
+
   if (sessionData)
     return (
       <div className="card mt-2 h-fit w-full shadow-xl lg:w-96">
@@ -112,6 +128,7 @@ const Content: React.FC = () => {
                         <button
                           className="min-w-6 text-md btn btn-square btn-accent min-h-6  h-6 w-6 bg-opacity-50 "
                           disabled={survey && survey.active}
+                          onClick={() => handleSurveyActivity(survey)}
                         >
                           <BsFillPlayFill />
                         </button>
@@ -119,6 +136,7 @@ const Content: React.FC = () => {
                         <button
                           disabled={survey && !survey.active}
                           className={`min-w-6 btn btn-square btn-error min-h-6 ml-1 h-6 w-6 bg-opacity-50 text-xs text-slate-50`}
+                          onClick={() => handleSurveyActivity(survey)}
                         >
                           <FaStop />
                         </button>
@@ -155,7 +173,10 @@ const Content: React.FC = () => {
                     className="tooltip tooltip-bottom"
                     data-tip="delete survey"
                   >
-                    <button className="min-w-8 btn btn-square min-h-8 h-8 w-8 bg-opacity-50">
+                    <button
+                      className="min-w-8 btn btn-square min-h-8 h-8 w-8 bg-opacity-50"
+                      onClick={() => deleteSurvey.mutate({ id: survey.id })}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="h-4 w-4"

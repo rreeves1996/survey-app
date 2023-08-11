@@ -18,11 +18,11 @@ export const surveyRouter = createTRPCRouter({
   }),
 
   getOne: publicProcedure
-    .input(z.object({ surveyId: z.string() }))
+    .input(z.object({ id: z.string() }))
     .query(({ ctx, input }) => {
       return ctx.prisma.survey.findUnique({
         where: {
-          id: input.surveyId,
+          id: input.id,
         },
         include: {
           questions: {
@@ -35,9 +35,7 @@ export const surveyRouter = createTRPCRouter({
     }),
 
   update: protectedProcedure
-    .input(
-      z.object({ surveyId: z.string(), name: z.string(), active: z.boolean() })
-    )
+    .input(z.object({ id: z.string(), name: z.string(), active: z.boolean() }))
     .mutation(({ ctx, input }) => {
       return ctx.prisma.survey.update({
         data: {
@@ -45,7 +43,7 @@ export const surveyRouter = createTRPCRouter({
           active: input.active,
         },
         where: {
-          id: input.surveyId,
+          id: input.id,
         },
       });
     }),
