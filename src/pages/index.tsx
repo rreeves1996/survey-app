@@ -173,9 +173,9 @@ const Content: React.FC = () => {
                     className="tooltip tooltip-bottom"
                     data-tip="delete survey"
                   >
-                    <button
+                    <label
+                      htmlFor="my_modal_7"
                       className="min-w-8 btn btn-square min-h-8 h-8 w-8 bg-opacity-50"
-                      onClick={() => deleteSurvey.mutate({ id: survey.id })}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -191,7 +191,44 @@ const Content: React.FC = () => {
                           d="M6 18L18 6M6 6l12 12"
                         />
                       </svg>
-                    </button>
+                    </label>
+                    <input
+                      type="checkbox"
+                      id="my_modal_7"
+                      className="modal-toggle"
+                    />
+                    <div className="modal">
+                      <div className="modal-box w-3/12">
+                        <h3 className="text-lg font-bold uppercase">
+                          Delete Survey
+                        </h3>
+                        <p className="py-4">
+                          Are you sure you want to delete this survey?
+                        </p>
+                        <div className="my-2 flex items-center justify-center gap-4">
+                          <label
+                            htmlFor="my_modal_7"
+                            className="btn btn-ghost modal-action btn-sm mt-0 bg-opacity-50 text-slate-50"
+                          >
+                            Cancel
+                          </label>
+
+                          <label
+                            htmlFor="my_modal_7"
+                            className="btn btn-error modal-action btn-sm mt-0 bg-opacity-50 text-slate-50"
+                            onClick={() =>
+                              deleteSurvey.mutate({ id: survey.id })
+                            }
+                          >
+                            Delete
+                          </label>
+                        </div>
+                      </div>
+
+                      <label className="modal-backdrop" htmlFor="my_modal_7">
+                        Close
+                      </label>
+                    </div>
                   </div>
                 </div>
               ))
