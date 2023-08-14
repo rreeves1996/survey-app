@@ -14,17 +14,12 @@ export default function SurveyCompleted({ surveyId }: { surveyId: string }) {
         <div className="divider my-0" />
 
         <p className="my-2 text-center">Your answers have been submitted!</p>
-        <div className="my-2 flex flex-col items-center">
-          <button
-            className={`btn btn-accent btn-block bg-opacity-50 hover:bg-opacity-100`}
-          >
-            View Results
-          </button>
 
-          <Link href="/">
-            <button className="btn btn-ghost btn-sm mb-0 mt-2">Home</button>
-          </Link>
-        </div>
+        <Link href="/">
+          <button className="btn btn-accent btn-block mb-2 bg-opacity-50 hover:bg-opacity-100">
+            Home
+          </button>
+        </Link>
       </div>
     </div>
   );
