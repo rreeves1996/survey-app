@@ -50,7 +50,7 @@ const Content: React.FC = () => {
     undefined,
     {
       enabled: sessionData?.user !== undefined,
-      onSuccess: (data) => console.log(data),
+      onSuccess: () => null,
     }
   );
 
