@@ -12,7 +12,7 @@ export const Navbar = () => {
       <button className="flex-1 px-2" onClick={() => router.push("/")}>
         <h6 className="  text-3xl font-extralight tracking-tight text-white">
           survey
-          <span className="font-medium  text-[hsl(214,100%,79%)]">Friend</span>
+          <span className="font-medium  text-[#94c2ff]">Friend</span>
         </h6>
       </button>
 
