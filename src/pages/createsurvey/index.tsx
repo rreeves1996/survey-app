@@ -118,6 +118,7 @@ export default function index() {
                     <p>Question {currentQuestions.indexOf(question) + 1}</p>
                     <p className="flex-grow-0">{question.questionType}</p>
                   </div>
+                  
                   <div className="collapse-content text-xs">
                     <p>{question.questionBody}</p>
                   </div>
