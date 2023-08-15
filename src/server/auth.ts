@@ -12,7 +12,6 @@ import CredentialsProvider from "next-auth/providers/credentials";
 
 import { env } from "~/env.mjs";
 import { prisma } from "~/server/db";
-import { compare } from "bcrypt";
 import NextAuth from "next-auth/next";
 declare module "next-auth" {
   interface Session extends DefaultSession {
