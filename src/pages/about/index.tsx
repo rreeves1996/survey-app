@@ -108,12 +108,12 @@ export default function Page() {
             </div>
 
             <div className="ml-2 flex flex-col justify-around">
-              <Link href="https://linkedin.com/in/rreevesdev">
+              <Link href="https://github.com/rreeves1996">
                 <button className="btn btn-sm w-8 rounded-full p-0">
                   <FiGithub className="text-lg" />
                 </button>
               </Link>
-              <Link href="https://github.com/rreeves1996">
+              <Link href="https://linkedin.com/in/rreevesdev">
                 <button className="btn btn-sm w-8 rounded-full p-0">
                   <FiLinkedin className="text-lg" />
                 </button>
