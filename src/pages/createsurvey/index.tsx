@@ -1,4 +1,3 @@
-import { Question } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -7,25 +6,6 @@ import QuestionForm from "~/components/QuestionForm";
 import { api } from "~/utils/api";
 import { v4 } from "uuid";
 
-const DUMMY_DATA = [
-  { questionType: "T/F", questionBody: "This is a true/false question" },
-  {
-    questionType: "T/F",
-    questionBody: "This is the second true false question",
-  },
-  { questionType: "T/F", questionBody: "I am literally a potato" },
-  {
-    questionType: "T/F",
-    questionBody: "This is the fourth true false question",
-  },
-  {
-    questionType: "T/F",
-    questionBody:
-      "I have been searching for a job in web development for 11 months",
-  },
-  { questionType: "T/F", questionBody: "Piano is the best instrument" },
-];
-
 export default function index() {
   const router = useRouter();
   const { data: sessionData } = useSession();
@@ -33,9 +13,7 @@ export default function index() {
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [surveyName, setSurveyName] = useState<string>("");
   const [showQuestionForm, setShowQuestionForm] = useState<boolean>(false);
-  const [currentQuestions, setCurrentQuestions] = useState<FormQuestion[]>([
-    ...DUMMY_DATA,
-  ]);
+  const [currentQuestions, setCurrentQuestions] = useState<FormQuestion[]>([]);
 
   const { refetch: refetchSurveys } = api.survey.getAll.useQuery(undefined, {
     enabled: sessionData?.user !== undefined,
@@ -118,7 +96,7 @@ export default function index() {
                     <p>Question {currentQuestions.indexOf(question) + 1}</p>
                     <p className="flex-grow-0">{question.questionType}</p>
                   </div>
-                  
+
                   <div className="collapse-content text-xs">
                     <p>{question.questionBody}</p>
                   </div>
@@ -179,11 +157,11 @@ export default function index() {
           >
             «
           </button>
-          
+
           <button className="btn join-item  min-h-6 h-8">
             Page {currentPage + 1}
           </button>
-          
+
           <button
             className="btn join-item  min-h-6 h-8"
             onClick={() =>
