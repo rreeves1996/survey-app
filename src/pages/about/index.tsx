@@ -128,8 +128,8 @@ export default function Page() {
 
           <div className="mr-2 flex flex-col">
             <p className="text-center text-lg">Ryan Reeves</p>
+            <p className="text-center text-xs">Honolulu, HI (GMT-10)</p>
             <p className="text-center text-xs">rreeves.dev@gmail.com</p>
-            <p className="text-center text-xs">+1 (425) 418-3963</p>
             <p className="text-center text-xs">https://rreeves.dev/</p>
           </div>
         </div>
