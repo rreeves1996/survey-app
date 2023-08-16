@@ -90,7 +90,7 @@ export default function Page() {
           </Link>{" "}
           along with the Prisma schema. This was my first time utilizing
           Supabase, and I was incredibly impressed with it! I'm very excited for
-          the future of Supabase, and plan to use it in my future apps.
+          the future of Supabase, and plan to use it regularly in more apps.
         </p>
 
         <h5 className="my-2 text-center text-2xl">Contact the developer</h5>
