@@ -88,7 +88,7 @@ const Content: React.FC = () => {
 
           <div className="flex flex-col">
             {surveys ? (
-              surveys.map((survey, index) => (
+              surveys.map((survey) => (
                 <div className="flex gap-1">
                   <div
                     className={`collapse mb-2 rounded-md bg-base-200 py-0 transition-all hover:bg-opacity-100 ${
