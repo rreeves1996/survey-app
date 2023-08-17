@@ -16,7 +16,7 @@ export default function SurveyInactive() {
         <p className="my-2 text-center">This survey is currently inactive.</p>
 
         <Link href="/">
-          <button className="btn btn-accent btn-block mb-2 bg-opacity-50 hover:bg-opacity-100">
+          <button className="btn btn-accent btn-block my-2 mb-4 bg-opacity-50 hover:bg-opacity-100">
             Home
           </button>
         </Link>
