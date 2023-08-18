@@ -12,6 +12,8 @@ import toast from "react-hot-toast";
 
 const notifyDelete = () => toast("Survey successfully deleted.");
 const notifyCopy = () => toast("Link copied to clipboard.");
+const notifyActive = () => toast("Survey is now active.");
+const notifyInactive = () => toast("Survey is now inactive.");
 
 export default function Home() {
   const { data: sessionData } = useSession();
@@ -78,7 +80,10 @@ const Content: React.FC = () => {
       active: survey.active ? false : true,
     });
 
-    refetchSurveys();
+    refetchSurveys().then(() => {
+      if (survey.active) notifyInactive();
+      if (!survey.active) notifyActive();
+    });
   };
 
   if (sessionData)
