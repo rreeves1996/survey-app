@@ -5,6 +5,9 @@ import React, { useState } from "react";
 import QuestionForm from "~/components/QuestionForm";
 import { api } from "~/utils/api";
 import { v4 } from "uuid";
+import { toast } from "react-hot-toast";
+
+const notifyCreate = () => toast("Survey successfully created.");
 
 export default function index() {
   const router = useRouter();
@@ -24,6 +27,7 @@ export default function index() {
     onSuccess: () => {
       refetchSurveys();
       router.push("/");
+      notifyCreate();
     },
   });
 
@@ -180,12 +184,14 @@ export default function index() {
             className={`btn btn-accent btn-block mb-1 bg-opacity-50 hover:bg-opacity-100 ${
               !surveyName || !currentQuestions[0] ? "btn-disabled" : ""
             }`}
-            onClick={() => createSurvey.mutate({ name: surveyName })}
+            onClick={async () => {
+              createSurvey.mutate({ name: surveyName });
+            }}
           >
             Create Survey
           </button>
 
-          <Link href="/createsurvey/success">
+          <Link href="/">
             <button className="btn btn-ghost btn-sm mb-0 mt-2">Cancel</button>
           </Link>
         </div>

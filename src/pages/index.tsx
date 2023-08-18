@@ -8,6 +8,10 @@ import { useRouter } from "next/router";
 import { FaStop, FaGithub } from "react-icons/fa";
 import { BsFillPlayFill } from "react-icons/bs";
 import { AiOutlineLink } from "react-icons/ai";
+import toast from "react-hot-toast";
+
+const notifyDelete = () => toast("Survey successfully deleted.");
+const notifyCopy = () => toast("Link copied to clipboard.");
 
 export default function Home() {
   const { data: sessionData } = useSession();
@@ -57,6 +61,7 @@ const Content: React.FC = () => {
   const deleteSurvey = api.survey.delete.useMutation({
     onSuccess: () => {
       void refetchSurveys();
+      notifyDelete();
     },
   });
 
@@ -150,6 +155,8 @@ const Content: React.FC = () => {
                         navigator.clipboard.writeText(
                           `https://survey-app-silk.vercel.app/survey/${survey.id}`
                         );
+
+                        notifyCopy();
                       }}
                       className="min-w-8 btn btn-square min-h-8  h-8 w-8 bg-opacity-50"
                     >

@@ -10,8 +10,11 @@ import { BsFillPlayFill } from "react-icons/bs";
 import { FaStop } from "react-icons/fa";
 import SurveyCompleted from "~/components/SurveyCompleted";
 import SurveyInactive from "~/components/SurveyInactive";
+import toast from "react-hot-toast";
 
 type SurveyWithQuestions = Partial<Survey> & { questions: Question[] };
+
+const notifyEdit = () => toast("Survey successfully edited.");
 
 export default function Page() {
   const router = useRouter();
@@ -109,6 +112,7 @@ function AdminPanel({
       // Update survey name and active boolean
       refetchSurvey();
       refetchQuestions();
+      router.push("/").then(() => notifyEdit());
     },
   });
 
@@ -237,7 +241,7 @@ function AdminPanel({
             .slice(currentPage * 5, 5 + currentPage * 5)
             .map((question) => (
               <div className="flex" key={v4()}>
-                <div className="collapse-arrow collapse rounded-md bg-base-200 bg-opacity-50 transition-all hover:bg-opacity-100">
+                <div className="collapse collapse-arrow rounded-md bg-base-200 bg-opacity-50 transition-all hover:bg-opacity-100">
                   <input type="checkbox" className="min-h-8" />
                   <div className="collapse-title min-h-8 flex w-full justify-between pb-0 pl-3 pt-1 text-sm font-medium">
                     <p>
@@ -323,7 +327,7 @@ function AdminPanel({
 
         <div className="flex flex-col items-center">
           <button
-            className={`btn btn-accent btn-outline btn-block mb-1 ${
+            className={`btn btn-accent btn-block mb-1 bg-opacity-50 ${
               !surveyName ? "btn-disabled" : ""
             }`}
             onClick={() => {
@@ -333,7 +337,6 @@ function AdminPanel({
                   id: survey.id as string,
                   active: isActive,
                 });
-              router.push("/survey/editsuccess");
             }}
           >
             Submit Edit
