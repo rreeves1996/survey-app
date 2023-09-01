@@ -10,6 +10,7 @@ import { BsFillPlayFill } from "react-icons/bs";
 import { AiOutlineLink } from "react-icons/ai";
 import toast from "react-hot-toast";
 import { GetServerSideProps } from "next";
+import Loading from "~/components/Loading";
 
 const notifyDelete = () => toast("Survey successfully deleted.");
 const notifyCopy = () => toast("Link copied to clipboard.");
@@ -174,7 +175,7 @@ export default function Home() {
             ))
           ) : (
             <div className="flex w-full items-center justify-center">
-              <span className="loading loading-spinner w-24" />
+              <Loading />
             </div>
           )}
         </div>
