@@ -14,8 +14,8 @@ export default function Page() {
             <Image
               src={APP_LOGO}
               alt="logo"
-              layout="fill" // required
-              objectFit="contain" // change to suit your needs
+              layout="fill"
+              objectFit="contain"
             />
           </div>
         </header>
