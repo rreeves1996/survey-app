@@ -1,15 +1,15 @@
-import { useEffect, useState } from "react";
-import { getSession, signIn, signOut, useSession } from "next-auth/react";
+import { useState } from "react";
+import { getSession, useSession } from "next-auth/react";
+import { GetServerSideProps } from "next";
 import Link from "next/link";
 import { api } from "~/utils/api";
 import { Survey } from "@prisma/client";
 import { BiSolidEdit } from "react-icons/bi";
 import { useRouter } from "next/router";
-import { FaStop, FaGithub } from "react-icons/fa";
+import { FaStop } from "react-icons/fa";
 import { BsFillPlayFill } from "react-icons/bs";
 import { AiOutlineLink } from "react-icons/ai";
 import toast from "react-hot-toast";
-import { GetServerSideProps } from "next";
 import Loading from "~/components/Loading";
 
 const notifyDelete = () => toast("Survey successfully deleted.");
@@ -140,7 +140,7 @@ export default function Home() {
 
                 <div className="tooltip tooltip-bottom" data-tip="edit survey">
                   <button
-                    onClick={() => router.push(`/survey/${survey.id}`)}
+                    onClick={() => router.push(`/survey/edit/${survey.id}`)}
                     className="min-w-8 btn btn-square min-h-8 h-8 w-8 bg-opacity-50"
                   >
                     <BiSolidEdit />
