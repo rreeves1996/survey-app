@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React from "react";
 
-export default function SurveyCompleted({ surveyId }: { surveyId: string }) {
+export default function SurveyCompleted({ surveyId }: { surveyId: string | undefined}) {
   return (
     <div className="card mt-2 h-fit w-full shadow-xl lg:w-96">
       <div className="card-body rounded-md bg-slate-800 pb-4">

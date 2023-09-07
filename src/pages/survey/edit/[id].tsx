@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import { GetServerSideProps } from "next";
-import { getSession, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { Question, Survey } from "@prisma/client";
+import { Question } from "@prisma/client";
 import { api } from "~/utils/api";
 import { v4 } from "uuid";
 import { toast } from "react-hot-toast";
@@ -16,7 +15,6 @@ const notifyEdit = () => toast("Survey successfully edited.");
 
 export default function AdminPanel() {
   const router = useRouter();
-  const { data: sessionData } = useSession();
 
   const { data: survey, refetch: refetchSurvey } = api.survey.getOne.useQuery(
     {

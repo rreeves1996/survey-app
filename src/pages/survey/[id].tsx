@@ -1,18 +1,11 @@
-import { Answer, Question, Survey } from "@prisma/client";
-import { getSession, useSession } from "next-auth/react";
-import Link from "next/link";
+import { Question, Survey } from "@prisma/client";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import QuestionForm from "~/components/QuestionForm";
 import { api } from "~/utils/api";
-import { v4 } from "uuid";
-import { BsFillPlayFill } from "react-icons/bs";
-import { FaStop } from "react-icons/fa";
 import SurveyCompleted from "~/components/SurveyCompleted";
-import SurveyInactive from "~/components/SurveyInactive";
 import toast from "react-hot-toast";
 import Loading from "~/components/Loading";
-import { GetServerSideProps } from "next";
 
 type SurveyWithQuestions = Partial<Survey> & {
   questions: QuestionWithAnswer[];
@@ -22,6 +15,7 @@ type QuestionWithAnswer = Partial<Question> & { answer?: string };
 const notifyEdit = () => toast("Survey successfully edited.");
 
 export default function Page() {
+  const { data: sessionData } = useSession();
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [questions, setQuestions] = useState<QuestionWithAnswer[]>([]);
@@ -36,11 +30,17 @@ export default function Page() {
   );
 
   useEffect(() => {
-    if (survey) setQuestions((prevState) => [...survey!.questions]);
+    if (survey) {
+      if (survey.userId === sessionData?.user.id) {
+        router.push(`/survey/edit/${survey.id}`);
+      } else {
+        setQuestions((prevState) => [...survey!.questions]);
+      }
+    }
   }, [survey]);
 
   const createAnswer = api.answer.create.useMutation({
-    onSuccess: (data) => console.log(data),
+    onSuccess: () => null,
   });
 
   const handleSubmitQuestions = () => {
