@@ -17,64 +17,62 @@ export const Navbar = () => {
         <span className="font-medium  text-[#94c2ff]">Friend</span>
       </button>
 
-      <div>
-        <section className="flex items-center gap-1">
-          <Link href="/">
-            <p className="btn btn-ghost btn-sm">Home</p>
-          </Link>
-          <Link href="/about">
-            <p className="btn btn-ghost btn-sm">About</p>
-          </Link>
+      <div className="flex items-center gap-1">
+        <Link href="/">
+          <p className="btn btn-ghost btn-sm">Home</p>
+        </Link>
+        <Link href="/about">
+          <p className="btn btn-ghost btn-sm">About</p>
+        </Link>
 
-          {sessionData ? (
-            <div
-              className="tooltip tooltip-left flex-none gap-2"
-              data-tip="sign out"
-            >
-              <div className="dropdown-end dropdown">
-                <label
-                  tabIndex={0}
-                  className="avatar btn btn-circle btn-ghost"
-                  onClick={() => void signOut()}
-                >
-                  {sessionData?.user?.image ? (
-                    <div className="w-10 rounded-full">
-                      <img
-                        src={sessionData?.user?.image ?? ""}
-                        alt={sessionData?.user?.name ?? ""}
-                      />
-                    </div>
-                  ) : (
-                    sessionData?.user?.name
-                  )}
-                </label>
-              </div>
+        {sessionData ? (
+          <div
+            className="tooltip tooltip-left flex-none gap-2"
+            data-tip="sign out"
+          >
+            <div className="dropdown-end dropdown">
+              <label
+                tabIndex={0}
+                className="avatar btn btn-circle btn-ghost"
+                onClick={() => void signOut()}
+              >
+                {sessionData?.user?.image ? (
+                  <div className="w-10 rounded-full">
+                    <img
+                      src={sessionData?.user?.image ?? ""}
+                      alt={sessionData?.user?.name ?? ""}
+                    />
+                  </div>
+                ) : (
+                  sessionData?.user?.name
+                )}
+              </label>
             </div>
-          ) : (
-            <>
-              <details className="dropdown-end dropdown-bottom dropdown mx-1">
-                <summary className="avatar btn btn-circle btn-ghost">
-                  <FaUserCircle className="text-4xl" />
-                </summary>
+          </div>
+        ) : (
+          <>
+            <details className="dropdown-end dropdown-bottom dropdown mx-1">
+              <summary className="avatar btn btn-circle btn-ghost">
+                <FaUserCircle className="text-4xl" />
+              </summary>
 
-                <ul className="slate-600 menu dropdown-content z-[1] translate-y-2 rounded-sm bg-slate-800 outline outline-1 outline-slate-600">
-                  {/* <Link href="/register">
+              <ul className="slate-600 menu dropdown-content z-[1] translate-y-2 rounded-sm bg-slate-800 outline outline-1 outline-slate-600">
+                {/* <Link href="/register">
                     <li className="btn btn-ghost btn-sm rounded-sm px-2">
                       Register
                     </li>
                   </Link> */}
 
-                  <li
-                    className="btn btn-ghost btn-sm rounded-sm px-2"
-                    onClick={() => router.push("/auth/login")}
-                  >
-                    Login
-                  </li>
-                </ul>
-              </details>
-            </>
-          )}
-        </section>
+                <li
+                  className="btn btn-ghost btn-sm rounded-sm px-2"
+                  onClick={() => router.push("/auth/login")}
+                >
+                  Login
+                </li>
+              </ul>
+            </details>
+          </>
+        )}
       </div>
     </div>
   );
