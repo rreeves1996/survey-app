@@ -10,10 +10,10 @@ export const Navbar = () => {
   return (
     <div className="navbar bg-slate-800">
       <button className="flex-1 px-2" onClick={() => router.push("/")}>
-        <h6 className="  text-3xl font-extralight tracking-tight text-white">
+        <p className="  text-3xl font-extralight tracking-tight text-white">
           survey
           <span className="font-medium  text-[#94c2ff]">Friend</span>
-        </h6>
+        </p>
       </button>
 
       <div>
@@ -30,7 +30,7 @@ export const Navbar = () => {
               className="tooltip tooltip-left flex-none gap-2"
               data-tip="sign out"
             >
-              <div className="dropdown-end dropdown">
+              <div className="dropdown dropdown-end">
                 <label
                   tabIndex={0}
                   className="avatar btn btn-circle btn-ghost"
@@ -51,7 +51,7 @@ export const Navbar = () => {
             </div>
           ) : (
             <>
-              <details className="dropdown-end dropdown-bottom dropdown mx-1">
+              <details className="dropdown dropdown-end dropdown-bottom mx-1">
                 <summary className="avatar btn btn-circle btn-ghost">
                   <FaUserCircle className="text-4xl" />
                 </summary>
