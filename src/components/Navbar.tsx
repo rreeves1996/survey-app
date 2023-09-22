@@ -9,20 +9,21 @@ export const Navbar = () => {
 
   return (
     <div className="navbar bg-slate-800">
-      <button className="flex-1 px-2" onClick={() => router.push("/")}>
-        <p className="  text-3xl font-extralight tracking-tight text-white">
-          survey
-          <span className="font-medium  text-[#94c2ff]">Friend</span>
-        </p>
+      <button
+        className="flex-1 px-2 text-3xl font-extralight tracking-tight text-white"
+        onClick={() => router.push("/")}
+      >
+        survey
+        <span className="font-medium  text-[#94c2ff]">Friend</span>
       </button>
 
       <div>
-        <ul className="flex items-center gap-1">
+        <section className="flex items-center gap-1">
           <Link href="/">
-            <li className="btn btn-ghost btn-sm">Home</li>
+            <p className="btn btn-ghost btn-sm">Home</p>
           </Link>
           <Link href="/about">
-            <li className="btn btn-ghost btn-sm">About</li>
+            <p className="btn btn-ghost btn-sm">About</p>
           </Link>
 
           {sessionData ? (
@@ -30,7 +31,7 @@ export const Navbar = () => {
               className="tooltip tooltip-left flex-none gap-2"
               data-tip="sign out"
             >
-              <div className="dropdown dropdown-end">
+              <div className="dropdown-end dropdown">
                 <label
                   tabIndex={0}
                   className="avatar btn btn-circle btn-ghost"
@@ -51,7 +52,7 @@ export const Navbar = () => {
             </div>
           ) : (
             <>
-              <details className="dropdown dropdown-end dropdown-bottom mx-1">
+              <details className="dropdown-end dropdown-bottom dropdown mx-1">
                 <summary className="avatar btn btn-circle btn-ghost">
                   <FaUserCircle className="text-4xl" />
                 </summary>
@@ -73,7 +74,7 @@ export const Navbar = () => {
               </details>
             </>
           )}
-        </ul>
+        </section>
       </div>
     </div>
   );
