@@ -4,15 +4,9 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { api } from "~/utils/api";
 import SurveyCompleted from "~/components/SurveyCompleted";
-import toast from "react-hot-toast";
 import Loading from "~/components/Loading";
 
-type SurveyWithQuestions = Partial<Survey> & {
-  questions: QuestionWithAnswer[];
-};
 type QuestionWithAnswer = Partial<Question> & { answer?: string };
-
-const notifyEdit = () => toast("Survey successfully edited.");
 
 export default function Page() {
   const { data: sessionData } = useSession();

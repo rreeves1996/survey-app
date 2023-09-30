@@ -1,26 +1,54 @@
-import { signIn } from 'next-auth/react';
-import Link from 'next/link';
-import React from 'react'
-import { FaGithub } from 'react-icons/fa';
+import { signIn } from "next-auth/react";
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
+import SURVEY_LOGO from "../../assets/surveylogo.png";
+
+import { FaGithub } from "react-icons/fa";
 
 export default function Page() {
   return (
-    <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
-      <h1 className="text-5xl font-extralight tracking-tight text-white sm:text-[5rem]">
-        survey
-        <span className="font-medium  text-[hsl(214,100%,79%)]">Friend</span>
-      </h1>
+    <div className="container flex flex-col items-center justify-center gap-12 px-4 pt-8 md:flex-row-reverse">
+      <div className="flex h-full w-full flex-col items-center justify-center md:w-1/2 md:items-start">
+        <Image
+          src={SURVEY_LOGO}
+          alt="surveylogo"
+          objectFit="cover"
+          className="left-0 top-0 w-2/3 object-cover md:w-2/3"
+        />
+      </div>
 
-      <div className="divider mx-auto my-0 w-56" />
+      <div className="flex flex-col items-center gap-2 md:w-1/2 ">
+        <header className="text-white ">
+          <h1 className="mb-4 text-4xl md:my-8 md:text-6xl">
+            <strong>Need to make a survey? Just make it here.</strong>
+          </h1>
 
-      <div className="flex flex-col items-center gap-2">
-        <button
-          className="btn btn-accent min-h-16 rounded-xl bg-opacity-40 px-10 text-lg hover:bg-opacity-100"
-          onClick={() => void signIn()}
-        >
-          Sign in
-        </button>
+          <p className="flex flex-col text-slate-300">
+            It's that simple. Continue with OAuth 2 or as a guest.
+            <span className="text-xs">
+              (Guest accounts cannot edit surveys, and the results will be
+              public)
+            </span>
+          </p>
+        </header>
 
+        <div className="divider m-auto my-6 w-full px-6 md:px-36" />
+
+        <div className="flex flex-col">
+          <button
+            className="btn btn-accent rounded-xl bg-opacity-40 md:min-h-16 hover:bg-opacity-100 md:px-10 md:text-lg"
+            onClick={() => void signIn()}
+          >
+            Sign in
+          </button>
+
+          <p className="my-2 text-center">or</p>
+
+          <button className="text-md btn btn-neutral rounded-xl border-slate-500 bg-opacity-0 line-through md:min-h-16 hover:border-slate-500 hover:bg-slate-500 md:px-10 md:text-lg">
+            Continue as guest
+          </button>
+        </div>
         <Link href="https://github.com/rreeves1996/survey-app">
           <button className="btn btn-ghost btn-sm mt-2">
             <FaGithub className="text-lg" /> View Repo »
