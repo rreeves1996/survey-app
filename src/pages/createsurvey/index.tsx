@@ -20,15 +20,11 @@ export default function index() {
 
   const { refetch: refetchSurveys } = api.survey.getAll.useQuery(undefined, {
     enabled: sessionData?.user !== undefined,
-    onSuccess: (data) => null,
+    onSuccess: () => null,
   });
 
   const createQuestion = api.question.create.useMutation({
-    onSuccess: () => {
-      refetchSurveys();
-      router.push("/");
-      notifyCreate();
-    },
+    onSuccess: () => null,
   });
 
   const createSurvey = api.survey.create.useMutation({
@@ -40,6 +36,10 @@ export default function index() {
           questionBody: question.questionBody,
         })
       );
+
+      refetchSurveys();
+      router.push("/");
+      notifyCreate();
     },
   });
 
