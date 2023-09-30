@@ -14,6 +14,7 @@ import Loading from "~/components/Loading";
 const notifyEdit = () => toast("Survey successfully edited.");
 
 export default function AdminPanel() {
+  const { data: sessionData } = useSession();
   const router = useRouter();
 
   const { data: survey, refetch: refetchSurvey } = api.survey.getOne.useQuery(
@@ -97,9 +98,13 @@ export default function AdminPanel() {
 
   useEffect(() => {
     if (survey) {
-      setSurveyName(survey.name);
-      setOldQuestions(survey.questions);
-      setIsActive(survey.active);
+      if (survey.userId !== sessionData?.user.id) {
+        router.push(`/survey/${survey.id}`);
+      } else {
+        setSurveyName(survey.name);
+        setOldQuestions(survey.questions);
+        setIsActive(survey.active);
+      }
     }
   }, [survey]);
 
@@ -210,7 +215,7 @@ export default function AdminPanel() {
               .slice(currentPage * 5, 5 + currentPage * 5)
               .map((question) => (
                 <div className="flex" key={v4()}>
-                  <div className="collapse collapse-arrow rounded-md bg-base-200 bg-opacity-50 transition-all hover:bg-opacity-100">
+                  <div className="collapse-arrow collapse rounded-md bg-base-200 bg-opacity-50 transition-all hover:bg-opacity-100">
                     <input type="checkbox" className="min-h-8" />
                     <div className="collapse-title min-h-8 flex w-full justify-between pb-0 pl-3 pt-1 text-sm font-medium">
                       <p>
