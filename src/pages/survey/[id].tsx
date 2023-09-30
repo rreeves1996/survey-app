@@ -19,7 +19,7 @@ export default function Page() {
       id: router.query.id! as string,
     },
     {
-      onSuccess: () => null,
+      onSuccess: (data) => console.log(data),
     }
   );
 
@@ -258,7 +258,7 @@ export default function Page() {
               ) : (
                 <button
                   className="pr- btn btn-accent  btn-md bg-opacity-50 pl-6 pr-5 text-base"
-                  disabled={questions[currentPage]!.answer ? false : true}
+                  disabled={questions[currentPage]?.answer ? false : true}
                   onClick={() =>
                     currentPage! < survey.questions.length - 1 &&
                     setCurrentPage(currentPage + 1)
