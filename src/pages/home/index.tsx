@@ -14,7 +14,7 @@ export default function Page() {
           src={SURVEY_LOGO}
           alt="surveylogo"
           objectFit="cover"
-          className="left-0 top-0 w-2/3 object-cover md:w-full"
+          className="left-0 top-0 w-2/3 self-center object-cover md:w-full"
         />
       </div>
 
