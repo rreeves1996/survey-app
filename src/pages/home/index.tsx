@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import SURVEY_LOGO from "../../assets/surveylogo.png";
-
+import { ImVideoCamera } from "react-icons/im";
 import { FaGithub } from "react-icons/fa";
 
 export default function Page() {
@@ -49,11 +49,26 @@ export default function Page() {
             Continue as guest
           </button>
         </div>
-        <Link href="https://github.com/rreeves1996/survey-app">
-          <button className="btn btn-ghost btn-sm mt-2">
-            <FaGithub className="text-lg" /> View Repo »
-          </button>
-        </Link>
+
+        <div className="grid grid-cols-2 gap-2">
+          <Link
+            target="_blank"
+            href="https://www.loom.com/share/0903568b120d4a6ca2e2b0db078a959a?sid=16096163-f592-41c3-81bd-2073e5cd2909"
+          >
+            <button className="btn btn-ghost btn-sm mt-2">
+              <ImVideoCamera className="text-lg" /> App Demo »
+            </button>
+          </Link>
+
+          <Link
+            target="_blank"
+            href="https://github.com/rreeves1996/survey-app"
+          >
+            <button className="btn btn-ghost btn-sm mt-2">
+              <FaGithub className="text-lg" /> View Repo »
+            </button>
+          </Link>
+        </div>
       </div>
     </div>
   );

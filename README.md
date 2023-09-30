@@ -9,7 +9,7 @@ Created by Ryan Reeves with the [T3 Stack](https://create.t3.gg/).
   <p align="center">
     <a href="https://survey-app-silk.vercel.app/"><strong>Vercel Deployment »</strong></a>
     <br />
-    <a href="https://github.com/rreeves1996/survey-app">View Demo</a>
+    <a href="https://www.loom.com/share/0903568b120d4a6ca2e2b0db078a959a?sid=16096163-f592-41c3-81bd-2073e5cd2909">View Demo</a>
     ·
     <a href="https://github.com/rreeves1996/survey-app/issues">Report Bug</a>
     ·
