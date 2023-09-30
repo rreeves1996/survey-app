@@ -9,12 +9,12 @@ import { FaGithub } from "react-icons/fa";
 export default function Page() {
   return (
     <div className="container flex flex-col items-center justify-center gap-12 px-4 pt-8 md:flex-row-reverse">
-      <div className="flex h-full w-full flex-col items-center justify-center md:w-1/2 md:items-start">
+      <div className="flex h-full w-full flex-col justify-center md:w-1/3">
         <Image
           src={SURVEY_LOGO}
           alt="surveylogo"
           objectFit="cover"
-          className="left-0 top-0 w-2/3 object-cover md:w-2/3"
+          className="left-0 top-0 w-2/3 object-cover md:w-full"
         />
       </div>
 
