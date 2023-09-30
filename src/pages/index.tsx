@@ -38,23 +38,19 @@ export default function Home() {
   });
 
   const updateSurvey = api.survey.update.useMutation({
-    onSuccess: () => {
-      void refetchSurveys();
-    },
+    onSuccess: () =>
+      refetchSurveys().then((data) => {
+        if (!data.data![0]!.active) notifyInactive();
+        if (data.data![0]!.active) notifyActive();
+      }),
   });
 
-  const handleSurveyActivity = (survey: Survey) => {
+  const handleSurveyActivity = (survey: Survey) =>
     updateSurvey.mutate({
       id: survey.id,
       name: survey.name,
       active: survey.active ? false : true,
     });
-
-    refetchSurveys().then(() => {
-      if (survey.active) notifyInactive();
-      if (!survey.active) notifyActive();
-    });
-  };
 
   return (
     <div className="card mt-2 h-fit w-full shadow-xl lg:w-96">
