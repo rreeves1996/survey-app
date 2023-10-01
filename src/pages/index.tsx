@@ -1,206 +1,75 @@
-import { useState } from "react";
-import { getSession, useSession } from "next-auth/react";
-import { GetServerSideProps } from "next";
+import { signIn } from "next-auth/react";
+import Image from "next/image";
 import Link from "next/link";
-import { api } from "~/utils/api";
-import { Survey } from "@prisma/client";
-import { BiSolidEdit } from "react-icons/bi";
-import { useRouter } from "next/router";
-import { FaStop } from "react-icons/fa";
-import { BsFillPlayFill } from "react-icons/bs";
-import { AiOutlineLink } from "react-icons/ai";
-import toast from "react-hot-toast";
-import Loading from "~/components/Loading";
-
-const notifyDelete = () => toast("Survey successfully deleted.");
-const notifyCopy = () => toast("Link copied to clipboard.");
-const notifyActive = () => toast("Survey is now active.");
-const notifyInactive = () => toast("Survey is now inactive.");
+import React from "react";
+import SURVEY_LOGO from "../assets/surveylogo.png";
+import { ImVideoCamera } from "react-icons/im";
+import { FaGithub } from "react-icons/fa";
 
 export default function Home() {
-  const router = useRouter();
-  const { data: sessionData } = useSession();
-  const [selectedSurvey, setSelectedSurvey] = useState<Survey>();
-
-  const { data: surveys, refetch: refetchSurveys } = api.survey.getAll.useQuery(
-    undefined,
-    {
-      enabled: sessionData?.user !== undefined,
-      onSuccess: () => null,
-    }
-  );
-
-  const deleteSurvey = api.survey.delete.useMutation({
-    onSuccess: () => {
-      void refetchSurveys();
-      notifyDelete();
-    },
-  });
-
-  const updateSurvey = api.survey.update.useMutation({
-    onSuccess: () =>
-      refetchSurveys().then((data) => {
-        if (!data.data![0]!.active) notifyInactive();
-        if (data.data![0]!.active) notifyActive();
-      }),
-  });
-
-  const handleSurveyActivity = (survey: Survey) =>
-    updateSurvey.mutate({
-      id: survey.id,
-      name: survey.name,
-      active: survey.active ? false : true,
-    });
-
   return (
-    <div className="card mt-2 h-fit w-full shadow-xl lg:w-96">
-      <div className="card-body rounded-md bg-slate-800">
-        <h1 className="text-center text-6xl font-extralight uppercase tracking-widest text-slate-100">
-          Home
-        </h1>
+    <div className="container flex flex-col items-center justify-center gap-12 px-4 pt-8 md:flex-row-reverse">
+      <div className="flex h-full w-full flex-col justify-center md:w-1/3">
+        <Image
+          src={SURVEY_LOGO}
+          alt="surveylogo"
+          objectFit="cover"
+          className="left-0 top-0 w-2/3 self-center object-cover md:w-full"
+        />
+      </div>
 
-        <div className="divider" />
+      <div className="flex flex-col items-center gap-2 md:w-1/2 ">
+        <header className="text-white ">
+          <h1 className="mb-4 text-4xl md:my-8 md:text-6xl">
+            <strong>Need to make a survey? Just make it here.</strong>
+          </h1>
+
+          <p className="flex flex-col text-slate-300">
+            It's that simple. Continue with OAuth 2 or as a guest.
+            <span className="text-xs">
+              (Guest accounts cannot edit surveys, and the results will be
+              public)
+            </span>
+          </p>
+        </header>
+
+        <div className="divider m-auto my-6 w-full px-6 md:px-36" />
 
         <div className="flex flex-col">
-          {surveys ? (
-            surveys.map((survey) => (
-              <div className="flex gap-1">
-                <div
-                  className={`collapse mb-2 rounded-md bg-base-200 py-0 transition-all hover:bg-opacity-100 ${
-                    selectedSurvey && selectedSurvey.id === survey.id
-                      ? "bg-opacity-75"
-                      : "bg-opacity-50"
-                  }`}
-                  onClick={() => setSelectedSurvey(survey)}
-                >
-                  <input
-                    type="radio"
-                    name="my-accordion-1"
-                    className="min-h-8 cursor-pointer"
-                    checked={
-                      selectedSurvey && selectedSurvey.id === survey.id
-                        ? true
-                        : false
-                    }
-                  />
-                  <div className="collapse-title min-h-6 flex  w-full items-center justify-between px-2 py-0 text-sm font-medium">
-                    <span className="text-ellipsis">{survey.name}</span>
-                    {survey.active ? (
-                      <div className="font-sm badge badge-accent badge-outline h-5 text-xs">
-                        active
-                      </div>
-                    ) : null}
-                  </div>
+          <button
+            className="btn btn-accent rounded-xl bg-opacity-40 md:min-h-16 hover:bg-opacity-100 md:px-10 md:text-lg"
+            onClick={() => void signIn()}
+          >
+            Sign in
+          </button>
 
-                  <div className="collapse-content my-0 flex justify-between px-2">
-                    <Link href={`/results/${survey.id}`}>
-                      <button className="btn btn-ghost btn-xs">
-                        view results
-                      </button>
-                    </Link>
+          <p className="my-2 text-center">or</p>
 
-                    <div className="flex">
-                      <button
-                        className="min-w-6 text-md btn btn-square btn-accent min-h-6  h-6 w-6 bg-opacity-50 "
-                        disabled={survey && survey.active}
-                        onClick={() => handleSurveyActivity(survey)}
-                      >
-                        <BsFillPlayFill />
-                      </button>
-
-                      <button
-                        disabled={survey && !survey.active}
-                        className={`min-w-6 btn btn-square btn-error min-h-6 ml-1 h-6 w-6 bg-opacity-50 text-xs text-slate-50`}
-                        onClick={() => handleSurveyActivity(survey)}
-                      >
-                        <FaStop />
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="tooltip tooltip-bottom" data-tip="copy link">
-                  <button
-                    onClick={() => {
-                      navigator.clipboard.writeText(
-                        `https://survey-app-silk.vercel.app/survey/${survey.id}`
-                      );
-
-                      notifyCopy();
-                    }}
-                    className="min-w-8 btn btn-square min-h-8  h-8 w-8 bg-opacity-50"
-                  >
-                    <AiOutlineLink className="" />
-                  </button>
-                </div>
-
-                <div className="tooltip tooltip-bottom" data-tip="edit survey">
-                  <button
-                    onClick={() => router.push(`/survey/edit/${survey.id}`)}
-                    className="min-w-8 btn btn-square min-h-8 h-8 w-8 bg-opacity-50"
-                  >
-                    <BiSolidEdit />
-                  </button>
-                </div>
-
-                <div
-                  className="tooltip tooltip-bottom"
-                  data-tip="delete survey"
-                >
-                  <button
-                    onClick={() => deleteSurvey.mutate({ id: survey.id })}
-                    className="min-w-8 btn btn-square min-h-8 h-8 w-8 bg-opacity-50"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-4 w-4"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M6 18L18 6M6 6l12 12"
-                      />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            ))
-          ) : (
-            <div className="flex w-full items-center justify-center">
-              <Loading />
-            </div>
-          )}
+          <button className="text-md btn btn-neutral rounded-xl border-slate-500 bg-opacity-0 line-through md:min-h-16 hover:border-slate-500 hover:bg-slate-500 md:px-10 md:text-lg">
+            Continue as guest
+          </button>
         </div>
 
-        <Link href="/createsurvey">
-          <button className="btn btn-accent btn-block mt-2 bg-opacity-50 hover:bg-accent">
-            Create New
-          </button>
-        </Link>
+        <div className="grid grid-cols-2 gap-2">
+          <Link
+            target="_blank"
+            href="https://www.loom.com/share/0903568b120d4a6ca2e2b0db078a959a?sid=16096163-f592-41c3-81bd-2073e5cd2909"
+          >
+            <button className="btn btn-ghost btn-sm mt-2">
+              <ImVideoCamera className="text-lg" /> App Demo »
+            </button>
+          </Link>
+
+          <Link
+            target="_blank"
+            href="https://github.com/rreeves1996/survey-app"
+          >
+            <button className="btn btn-ghost btn-sm mt-2">
+              <FaGithub className="text-lg" /> View Repo »
+            </button>
+          </Link>
+        </div>
       </div>
     </div>
   );
 }
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const session = await getSession(context);
-
-  if (!session) {
-    return {
-      redirect: {
-        destination: "/home",
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: {
-      session,
-    },
-  };
-};

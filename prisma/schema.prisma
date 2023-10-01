@@ -72,8 +72,8 @@ model Survey {
     createdAt DateTime   @default(now())
     updatedAt DateTime   @updatedAt
     name      String
-    user      User       @relation(fields: [userId], references: [id])
-    userId    String
+    user      User?      @relation(fields: [userId], references: [id])
+    userId    String?
     active    Boolean    @default(true)
     questions Question[]
 }
