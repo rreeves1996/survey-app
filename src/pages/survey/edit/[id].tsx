@@ -140,6 +140,7 @@ export default function Page() {
               </label>
 
               <input
+                id="name"
                 type="text"
                 name="name"
                 placeholder="New survey"

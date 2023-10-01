@@ -20,12 +20,13 @@ export default function Page() {
       id: router.query.id! as string,
     },
     {
-      onSuccess: (data) => console.log(data),
+      onSuccess: () => null,
     }
   );
 
   useEffect(() => {
     if (survey) {
+      // If the survey was created by the user, redirect to the edit survey page
       if (survey.userId === sessionData?.user.id) {
         router.push(`/survey/edit/${survey.id}`);
       } else {

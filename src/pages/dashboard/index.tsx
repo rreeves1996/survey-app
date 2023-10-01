@@ -131,7 +131,7 @@ export default function Page() {
                     }}
                     className="min-w-8 btn btn-square min-h-8  h-8 w-8 bg-opacity-50"
                   >
-                    <AiOutlineLink className="" />
+                    <AiOutlineLink />
                   </button>
                 </div>
 

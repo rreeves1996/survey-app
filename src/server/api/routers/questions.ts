@@ -41,7 +41,7 @@ export const questionRouter = createTRPCRouter({
       });
     }),
 
-  create: protectedProcedure
+  create: publicProcedure
     .input(
       z.object({
         questionType: z.string(),

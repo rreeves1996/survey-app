@@ -11,23 +11,17 @@ const notifyCreate = () => toast("Survey successfully created.");
 
 export default function Page() {
   const router = useRouter();
-  const { data: sessionData } = useSession();
 
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [surveyName, setSurveyName] = useState<string>("");
   const [showQuestionForm, setShowQuestionForm] = useState<boolean>(false);
   const [currentQuestions, setCurrentQuestions] = useState<FormQuestion[]>([]);
 
-  const { refetch: refetchSurveys } = api.survey.getAll.useQuery(undefined, {
-    enabled: sessionData?.user !== undefined,
-    onSuccess: () => null,
-  });
-
   const createQuestion = api.question.create.useMutation({
     onSuccess: () => null,
   });
 
-  const createSurvey = api.survey.create.useMutation({
+  const createSurvey = api.survey.createGuest.useMutation({
     onSuccess: (data) => {
       currentQuestions.map((question) =>
         createQuestion.mutate({
@@ -37,8 +31,7 @@ export default function Page() {
         })
       );
 
-      refetchSurveys();
-      router.push("/");
+      router.push(`/createsuccess/${data.id}`);
       notifyCreate();
     },
   });
@@ -70,6 +63,7 @@ export default function Page() {
             </label>
 
             <input
+              id="name"
               type="text"
               name="name"
               placeholder="New survey"
@@ -81,9 +75,15 @@ export default function Page() {
         </form>
 
         <p className="text-sm">
+          <strong>NOTE:</strong> As a guest, you will not be able to go back and
+          edit your survey after its creation.
+        </p>
+
+        <p className="text-sm">
           <strong>TRUE/FALSE</strong> questions allow the user to answer with
           either true or false.
         </p>
+
         <p className="mb-2 text-sm">
           <strong>FREQUENCY</strong> questions allow the user to respond with
           their frequency (1-5), with 1 being "never" and 5 being "always."
