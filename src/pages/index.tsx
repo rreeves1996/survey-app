@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { signIn, useSession } from "next-auth/react";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import Link from "next/link";
 import React from "react";
 import SURVEY_LOGO from "../assets/surveylogo.png";
@@ -27,6 +27,7 @@ export default function Home() {
           src={SURVEY_LOGO}
           alt="surveylogo"
           objectFit="cover"
+          priority={true}
           className="left-0 top-0 w-2/3 self-center object-cover md:w-full"
         />
       </div>

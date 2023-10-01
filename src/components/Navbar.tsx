@@ -1,4 +1,4 @@
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { FaUserCircle } from "react-icons/fa";
@@ -30,7 +30,7 @@ export const Navbar = () => {
             className="tooltip tooltip-left flex-none gap-2"
             data-tip="sign out"
           >
-            <div className="dropdown-end dropdown">
+            <div className="dropdown dropdown-end">
               <label
                 tabIndex={0}
                 className="avatar btn btn-circle btn-ghost"
@@ -51,7 +51,7 @@ export const Navbar = () => {
           </div>
         ) : (
           <>
-            <details className="dropdown-end dropdown-bottom dropdown mx-1">
+            <details className="dropdown dropdown-end dropdown-bottom mx-1">
               <summary className="avatar btn btn-circle btn-ghost">
                 <FaUserCircle className="text-4xl" />
               </summary>

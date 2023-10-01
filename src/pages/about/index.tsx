@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "next/legacy/image";
 import Link from "next/link";
 import React from "react";
 import APP_LOGO from "../../assets/logo.png";
@@ -14,6 +14,7 @@ export default function Page() {
             <Image
               src={APP_LOGO}
               alt="logo"
+              priority={true}
               layout="fill"
               objectFit="contain"
             />
