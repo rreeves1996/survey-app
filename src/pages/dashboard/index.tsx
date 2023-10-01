@@ -2,6 +2,7 @@ import { useState } from "react";
 import { getSession, useSession } from "next-auth/react";
 import { GetServerSideProps } from "next";
 import Link from "next/link";
+import { v4 } from "uuid";
 import { api } from "~/utils/api";
 import { Survey } from "@prisma/client";
 import { BiSolidEdit } from "react-icons/bi";
@@ -64,7 +65,7 @@ export default function Page() {
         <div className="flex flex-col">
           {surveys ? (
             surveys.map((survey) => (
-              <div className="flex gap-1">
+              <div key={v4()} className="flex gap-1">
                 <div
                   className={`collapse mb-2 rounded-md bg-base-200 py-0 transition-all hover:bg-opacity-100 ${
                     selectedSurvey && selectedSurvey.id === survey.id
@@ -77,7 +78,7 @@ export default function Page() {
                     type="radio"
                     name="my-accordion-1"
                     className="min-h-8 cursor-pointer"
-                    checked={
+                    defaultChecked={
                       selectedSurvey && selectedSurvey.id === survey.id
                         ? true
                         : false
@@ -192,7 +193,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   if (!session) {
     return {
       redirect: {
-        destination: "/home",
+        destination: "/",
         permanent: false,
       },
     };
