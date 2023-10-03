@@ -22,7 +22,7 @@ export default function QuestionForm({
     <div className={`${!showQuestionForm && "hidden"} my-2`}>
       <textarea
         placeholder="New question"
-        className="textarea textarea-bordered textarea-sm mb-1 w-full max-w-xs"
+        className="textarea textarea-bordered textarea-sm mb-1 w-full"
         value={questionBody}
         onChange={(e) => setQuestionBody(e.target.value)}
       />
