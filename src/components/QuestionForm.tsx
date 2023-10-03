@@ -28,13 +28,15 @@ export default function QuestionForm({
       />
 
       <div className="flex items-center px-2">
-        <label htmlFor="" className="min-w-max">
-          Question type:
-        </label>
+        <p className="min-w-max">Question type:</p>
 
         <div className="flex w-full justify-evenly">
-          <label className="label flex cursor-pointer justify-start">
+          <label
+            className="label flex cursor-pointer justify-start"
+            htmlFor="tf-box"
+          >
             <input
+              id="tf-box checkbox"
               type="checkbox"
               value="T/F"
               checked={questionType === "T/F" ? true : false}
@@ -47,8 +49,12 @@ export default function QuestionForm({
             </span>
           </label>
 
-          <label className="label flex cursor-pointer justify-start">
+          <label
+            className="label flex cursor-pointer justify-start"
+            htmlFor="freq-box"
+          >
             <input
+              id="freq-box checkbox"
               type="checkbox"
               value="FREQ"
               checked={questionType === "FREQ" ? true : false}
