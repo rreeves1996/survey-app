@@ -71,9 +71,10 @@ export default function Page() {
         })
       );
 
-      // Update survey name and active boolean
+      // Update survey name
       refetchSurvey();
-      router.push("/").then(() => notifyEdit());
+      router.push("/dashboard");
+      notifyEdit();
     },
   });
 
@@ -216,7 +217,7 @@ export default function Page() {
               .slice(currentPage * 5, 5 + currentPage * 5)
               .map((question) => (
                 <div className="flex" key={v4()}>
-                  <div className="collapse collapse-arrow rounded-md bg-base-200 bg-opacity-50 transition-all hover:bg-opacity-100">
+                  <div className="collapse-arrow collapse rounded-md bg-base-200 bg-opacity-50 transition-all hover:bg-opacity-100">
                     <input type="checkbox" className="min-h-8" />
                     <div className="collapse-title min-h-8 flex w-full justify-between pb-0 pl-3 pt-1 text-sm font-medium">
                       <p>
@@ -319,7 +320,7 @@ export default function Page() {
               Submit Edit
             </button>
 
-            <Link className="btn btn-ghost btn-sm mb-0 mt-2" href="/">
+            <Link className="btn btn-ghost btn-sm mb-0 mt-2" href="/dashboard">
               Cancel
             </Link>
           </div>

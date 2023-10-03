@@ -38,7 +38,7 @@ export default function Page() {
       );
 
       refetchSurveys();
-      router.push("/");
+      router.push("/dashboard");
       notifyCreate();
     },
   });
@@ -191,7 +191,7 @@ export default function Page() {
             Create Survey
           </button>
 
-          <Link href="/" className="btn btn-ghost btn-sm mb-0 mt-2">
+          <Link href="/dashboard" className="btn btn-ghost btn-sm mb-0 mt-2">
             Cancel
           </Link>
         </div>
