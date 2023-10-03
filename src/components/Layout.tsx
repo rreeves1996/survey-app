@@ -1,6 +1,5 @@
 import React, { PropsWithChildren } from "react";
 import { Navbar } from "./Navbar";
-import Head from "next/head";
 import { Toaster } from "react-hot-toast";
 
 export default function Layout({ children }: PropsWithChildren) {
