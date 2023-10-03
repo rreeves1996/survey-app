@@ -29,6 +29,7 @@ export default function Home() {
           width={500}
           height={560}
           priority={true}
+          quality={100}
           className="left-0 top-0 w-2/3 self-center object-cover md:w-full"
         />
       </div>

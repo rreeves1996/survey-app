@@ -25,6 +25,8 @@ I am an individual looking to create surveys to gather and view specified amount
 
 [Link to Loom app demo](https://www.loom.com/share/0903568b120d4a6ca2e2b0db078a959a?sid=16096163-f592-41c3-81bd-2073e5cd2909)
 
+<img src="./public/app-preview.png" alt="Logo" width="950" height="500">
+
 ## App Usage
 
 To get started with the app, simply visit the [Vercel Deployment](https://survey-app-silk.vercel.app/) and sign in using OAuth 2 (GitHub, Discord, or Google). Then, create a new survey, copy the link using the copy link button located next to the survey in the homepage. From there, you may send the survey to anyone who you'd like, and the results of the survey can be viewed on your home screen.
