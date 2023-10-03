@@ -1,4 +1,5 @@
 import { signIn } from "next-auth/react";
+import Link from "next/link";
 import React, { useState } from "react";
 import { AiFillGithub } from "react-icons/ai";
 import { FaDiscord } from "react-icons/fa";
@@ -16,9 +17,7 @@ export default function Login() {
 
         <div className="divider my-0" />
 
-        <p className="text-center">
-          <strong>Sign in using OAuth 2:</strong>
-        </p>
+        <p className="text-center">Sign in using OAuth 2:</p>
 
         <div className="my-2 flex flex-col gap-2">
           <button
@@ -56,6 +55,10 @@ export default function Login() {
           >
             <FcGoogle className="text-xl" /> Continue with Google
           </button>
+
+          <Link className="btn btn-ghost btn-sm mx-auto my-0" href="/">
+            Cancel
+          </Link>
         </div>
         {/* 
         <div className="divider mb-0 mt-2" />

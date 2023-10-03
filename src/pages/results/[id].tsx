@@ -214,9 +214,7 @@ export default function Page() {
           )}
 
           <Link href="/">
-            <button
-              className={`btn btn-accent btn-block mb-2 bg-opacity-50 hover:bg-opacity-100`}
-            >
+            <button className="btn btn-accent btn-block mb-2 bg-opacity-50 hover:bg-opacity-100">
               Home
             </button>
           </Link>

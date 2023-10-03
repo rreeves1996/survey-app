@@ -7,7 +7,7 @@ export default function Layout({ children }: PropsWithChildren) {
   return (
     <>
       <Navbar />
-      <main className="flex min-h-[calc(100vh-66px)] flex-col items-center bg-gradient-to-l from-blue-800 to-indigo-900 p-4">
+      <main className="anti-aliased flex min-h-[calc(100vh-66px)] flex-col items-center bg-gradient-to-l from-blue-800 to-indigo-900 p-4">
         {children}
       </main>
       <Toaster
