@@ -32,8 +32,8 @@ export default function SurveyCompleted({
             View Results
           </button>
 
-          <Link href="/">
-            <button className="btn btn-ghost btn-sm mb-0 mt-2">Go Home</button>
+          <Link href="/" className="btn btn-ghost btn-sm mb-0 mt-2">
+            Go Home
           </Link>
         </div>
       </div>

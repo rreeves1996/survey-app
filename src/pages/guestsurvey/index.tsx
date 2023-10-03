@@ -94,7 +94,7 @@ export default function Page() {
             .slice(currentPage * 5, 5 + currentPage * 5)
             .map((question) => (
               <div className="flex" key={v4()}>
-                <div className="collapse collapse-arrow rounded-md bg-base-200 bg-opacity-50 transition-all hover:bg-opacity-100">
+                <div className="collapse-arrow collapse rounded-md bg-base-200 bg-opacity-50 transition-all hover:bg-opacity-100">
                   <input type="checkbox" className="min-h-8" />
                   <div className="collapse-title min-h-8 flex w-full justify-between pb-0 pl-3 pt-1 text-sm font-medium">
                     <p>Question {currentQuestions.indexOf(question) + 1}</p>
@@ -191,8 +191,8 @@ export default function Page() {
             Create Survey
           </button>
 
-          <Link href="/">
-            <button className="btn btn-ghost btn-sm mb-0 mt-2">Cancel</button>
+          <Link href="/" className="btn btn-ghost btn-sm mb-0 mt-2">
+            Cancel
           </Link>
         </div>
       </div>

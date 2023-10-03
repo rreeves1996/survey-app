@@ -58,10 +58,11 @@ export default function Home() {
 
           <p className="my-3 text-center leading-none">or</p>
 
-          <Link href="/guestsurvey">
-            <button className="text-md btn btn-neutral rounded-xl border-slate-200 bg-opacity-0 text-slate-200  md:min-h-16 hover:border-slate-200 hover:bg-slate-200 hover:bg-opacity-20 md:px-10 md:text-lg">
-              Continue as guest
-            </button>
+          <Link
+            href="/guestsurvey"
+            className="text-md btn btn-neutral rounded-xl border-slate-200 bg-opacity-0 text-slate-200  md:min-h-16 hover:border-slate-200 hover:bg-slate-200 hover:bg-opacity-20 md:px-10 md:text-lg"
+          >
+            Continue as guest
           </Link>
         </div>
 
@@ -69,19 +70,17 @@ export default function Home() {
           <Link
             target="_blank"
             href="https://www.loom.com/share/0903568b120d4a6ca2e2b0db078a959a?sid=16096163-f592-41c3-81bd-2073e5cd2909"
+            className="btn btn-ghost btn-sm mt-2 text-slate-200"
           >
-            <button className="btn btn-ghost btn-sm mt-2 text-slate-200">
-              <ImVideoCamera className="text-lg" /> App Demo »
-            </button>
+            <ImVideoCamera className="text-lg" /> App Demo »
           </Link>
 
           <Link
             target="_blank"
             href="https://github.com/rreeves1996/survey-app"
+            className="btn btn-ghost btn-sm mt-2 text-slate-200"
           >
-            <button className="btn btn-ghost btn-sm mt-2 text-slate-200">
-              <FaGithub className="text-lg" /> View Repo »
-            </button>
+            <FaGithub className="text-lg" /> View Repo »
           </Link>
         </div>
       </div>

@@ -94,10 +94,11 @@ export default function Page() {
                   </div>
 
                   <div className="collapse-content my-0 flex justify-between px-2">
-                    <Link href={`/results/${survey.id}`}>
-                      <button className="btn btn-ghost btn-xs">
-                        view results
-                      </button>
+                    <Link
+                      href={`/results/${survey.id}`}
+                      className="btn btn-ghost btn-xs"
+                    >
+                      view results
                     </Link>
 
                     <div className="flex">
@@ -177,10 +178,11 @@ export default function Page() {
           )}
         </div>
 
-        <Link href="/createsurvey">
-          <button className="btn btn-accent btn-block mt-2 bg-opacity-50 hover:bg-accent">
-            Create New
-          </button>
+        <Link
+          href="/createsurvey"
+          className="btn btn-accent btn-block mt-2 bg-opacity-50 hover:bg-accent"
+        >
+          Create New
         </Link>
       </div>
     </div>

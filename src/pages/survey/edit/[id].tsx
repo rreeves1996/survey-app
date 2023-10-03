@@ -319,8 +319,8 @@ export default function Page() {
               Submit Edit
             </button>
 
-            <Link href="/">
-              <button className="btn btn-ghost btn-sm mb-0 mt-2">Cancel</button>
+            <Link className="btn btn-ghost btn-sm mb-0 mt-2" href="/">
+              Cancel
             </Link>
           </div>
         </div>

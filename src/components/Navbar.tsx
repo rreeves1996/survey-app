@@ -18,11 +18,11 @@ export const Navbar = () => {
       </button>
 
       <div className="flex items-center gap-1">
-        <Link href="/">
-          <p className="btn btn-ghost btn-sm">Home</p>
+        <Link href="/" className="btn btn-ghost btn-sm">
+          Home
         </Link>
-        <Link href="/about">
-          <p className="btn btn-ghost btn-sm">About</p>
+        <Link href="/about" className="btn btn-ghost btn-sm">
+          About
         </Link>
 
         {sessionData ? (
@@ -30,7 +30,7 @@ export const Navbar = () => {
             className="tooltip tooltip-left flex-none gap-2"
             data-tip="sign out"
           >
-            <div className="dropdown dropdown-end">
+            <div className="dropdown-end dropdown">
               <label
                 tabIndex={0}
                 className="avatar btn btn-circle btn-ghost"
@@ -51,7 +51,7 @@ export const Navbar = () => {
           </div>
         ) : (
           <>
-            <details className="dropdown dropdown-end dropdown-bottom mx-1">
+            <details className="dropdown-end dropdown-bottom dropdown mx-1">
               <summary className="avatar btn btn-circle btn-ghost">
                 <FaUserCircle className="text-4xl" />
               </summary>

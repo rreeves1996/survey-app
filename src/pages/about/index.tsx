@@ -109,29 +109,32 @@ export default function Page() {
             </div>
 
             <div className="ml-2 flex flex-col justify-around">
-              <Link href="https://github.com/rreeves1996">
-                <button className="btn btn-sm w-8 rounded-full p-0">
-                  <FiGithub className="text-lg" />
-                </button>
+              <Link
+                href="https://github.com/rreeves1996"
+                className="btn btn-sm w-8 rounded-full p-0"
+              >
+                <FiGithub className="text-lg" />
               </Link>
-              <Link href="https://linkedin.com/in/rreevesdev">
-                <button className="btn btn-sm w-8 rounded-full p-0">
-                  <FiLinkedin className="text-lg" />
-                </button>
+              <Link
+                href="https://linkedin.com/in/rreevesdev"
+                className="btn btn-sm w-8 rounded-full p-0"
+              >
+                <FiLinkedin className="text-lg" />
               </Link>
-              <Link href="https://www.instagram.com/ryanmakesloudnoises/">
-                <button className="btn btn-sm w-8 rounded-full p-0">
-                  <FiInstagram className="text-lg" />
-                </button>
+              <Link
+                href="https://www.instagram.com/ryanmakesloudnoises/"
+                className="btn btn-sm w-8 rounded-full p-0"
+              >
+                <FiInstagram className="text-lg" />
               </Link>
             </div>
           </div>
 
-          <div className="mr-2 flex flex-col">
-            <p className="text-center text-lg">Ryan Reeves</p>
-            <p className="text-center text-xs">Honolulu, HI (GMT-10)</p>
-            <p className="text-center text-xs">rreeves.dev@gmail.com</p>
-            <p className="text-center text-xs">https://rreeves.dev/</p>
+          <div className="mr-2 flex flex-col text-center text-xs">
+            <p className="text-lg">Ryan Reeves</p>
+            <p>Honolulu, HI (GMT-10)</p>
+            <p>rreeves.dev@gmail.com</p>
+            <p>https://rreeves.dev/</p>
           </div>
         </div>
       </div>
