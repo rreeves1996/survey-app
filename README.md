@@ -1,7 +1,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/rreeves1996/survey-app">
-    <img src="src/assets/logo.png" alt="Logo" width="511" height="100">
+    <img src="./public/logo.png" alt="Logo" width="511" height="100">
   </a>
 
 Created by Ryan Reeves with the [T3 Stack](https://create.t3.gg/).

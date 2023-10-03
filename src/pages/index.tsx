@@ -3,7 +3,6 @@ import { signIn, useSession } from "next-auth/react";
 import Image from "next/legacy/image";
 import Link from "next/link";
 import React from "react";
-import SURVEY_LOGO from "../assets/surveylogo.png";
 import { ImVideoCamera } from "react-icons/im";
 import { FaGithub } from "react-icons/fa";
 import { useRouter } from "next/router";
@@ -24,9 +23,11 @@ export default function Home() {
     <div className="container flex flex-col items-center justify-center gap-12 px-4 pt-8 md:flex-row-reverse">
       <div className="flex h-full w-full flex-col justify-center md:w-1/3">
         <Image
-          src={SURVEY_LOGO}
+          src="/surveylogo.png"
           alt="surveylogo"
           objectFit="cover"
+          width={500}
+          height={560}
           priority={true}
           className="left-0 top-0 w-2/3 self-center object-cover md:w-full"
         />

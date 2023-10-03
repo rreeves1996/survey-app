@@ -1,8 +1,6 @@
 import Image from "next/legacy/image";
 import Link from "next/link";
 import React from "react";
-import APP_LOGO from "../../assets/logo.png";
-import PORTRAIT from "../../assets/me.png";
 import { FiGithub, FiInstagram, FiLinkedin } from "react-icons/fi";
 import Container from "~/components/Container";
 
@@ -12,7 +10,7 @@ export default function Page() {
       <header>
         <div className="relative h-20 w-auto">
           <Image
-            src={APP_LOGO}
+            src="/logo.png"
             alt="logo"
             priority={true}
             layout="fill"
@@ -96,14 +94,14 @@ export default function Page() {
 
       <h5 className="my-2 text-center text-2xl">Contact the developer</h5>
 
-      <div className="mb-2 flex justify-between">
+      <div className="mb-2 flex justify-center">
         <div className="flex justify-center">
           <div className="relative h-28 w-28">
             <Image
-              src={PORTRAIT}
+              src="/me.png"
               alt="logo"
-              layout="fill" // required
-              objectFit="cover" // change to suit your needs
+              layout="fill"
+              objectFit="cover"
               className="rounded-full"
             />
           </div>
